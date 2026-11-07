@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>9jacash | Nigeria's #1 Earning & Banking Platform</title>
     
-    <!-- FAVICON: Uses the image you provided -->
+    <!-- FAVICON -->
     <link rel="icon" type="image/jpeg" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8j90HzeSN5ZFtbO39u_6YAjx_cZL24W8_AaKjcBXh0m4qKafOZ1cDhEQ&s=10">
     <link rel="apple-touch-icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8j90HzeSN5ZFtbO39u_6YAjx_cZL24W8_AaKjcBXh0m4qKafOZ1cDhEQ&s=10">
 
@@ -18,6 +18,7 @@
             --primary-dark: #6a1cb0;
             --accent: #00d4ff;
             --gold: #ffd700;
+            --success: #27ae60;
             --dark-bg: #0a0a1a;
             --card-bg: rgba(22, 22, 38, 0.92);
             --text-light: #ffffff;
@@ -111,7 +112,6 @@
             color: var(--text-light);
         }
 
-        /* Custom Logo Image Wrapper */
         .logo-image-wrapper {
             width: 48px;
             height: 48px;
@@ -138,7 +138,7 @@
 
         .nav-links {
             display: flex;
-            gap: 1.5rem;
+            gap: 1.2rem;
             align-items: center;
         }
 
@@ -156,7 +156,7 @@
         }
 
         .nav-btn {
-            padding: 0.6rem 1.4rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 12px;
             font-weight: 600;
             font-size: 0.9rem;
@@ -186,6 +186,17 @@
         .nav-btn.primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 22px rgba(138, 43, 226, 0.55);
+        }
+
+        .nav-btn.download {
+            background: linear-gradient(135deg, #27ae60, #1e8449);
+            color: white;
+            box-shadow: 0 5px 16px rgba(39, 174, 96, 0.4);
+        }
+
+        .nav-btn.download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(39, 174, 96, 0.55);
         }
 
         /* ============ HERO SECTION ============ */
@@ -364,6 +375,97 @@
         .cta-btn.gold:hover {
             transform: translateY(-3px);
             box-shadow: 0 14px 32px rgba(255, 215, 0, 0.5);
+        }
+
+        /* NEW: Download App Button */
+        .cta-btn.download {
+            background: linear-gradient(135deg, #27ae60, #1e8449);
+            color: white;
+            box-shadow: 0 10px 26px rgba(39, 174, 96, 0.45);
+            border: 1px solid rgba(39, 174, 96, 0.3);
+        }
+
+        .cta-btn.download:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 32px rgba(39, 174, 96, 0.6);
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+
+        .cta-btn.download i {
+            font-size: 1.2rem;
+        }
+
+        /* ============ APP DOWNLOAD BANNER ============ */
+        .download-banner {
+            padding: 1.5rem 0;
+        }
+
+        .download-banner-card {
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.12), rgba(0, 212, 255, 0.06));
+            border: 1px solid rgba(39, 174, 96, 0.3);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .download-banner-content {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .download-icon-big {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, #27ae60, #1e8449);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.4);
+            flex-shrink: 0;
+        }
+
+        .download-text h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+        }
+
+        .download-text p {
+            font-size: 0.88rem;
+            color: var(--text-gray);
+            margin: 0;
+        }
+
+        .download-banner-btn {
+            padding: 0.9rem 2rem;
+            background: linear-gradient(135deg, #27ae60, #1e8449);
+            color: white;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: var(--transition);
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.4);
+            white-space: nowrap;
+        }
+
+        .download-banner-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(39, 174, 96, 0.6);
         }
 
         /* ============ FEATURES GRID ============ */
@@ -730,8 +832,30 @@
             .hero h1 {
                 font-size: 2.2rem;
             }
-            .nav-links .nav-btn {
-                display: none; /* hide on small screens */
+            .nav-links .nav-btn.outline {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links .nav-btn.download span {
+                display: none; /* Hide text on mobile nav, keep icon */
+            }
+            .nav-links .nav-btn.download {
+                padding: 0.6rem 0.8rem;
+            }
+            .download-banner-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            .download-banner-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .download-banner-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
 
@@ -791,19 +915,22 @@
         <!-- ============ NAVBAR ============ -->
         <nav class="navbar">
             <a href="index.html" class="logo">
-                <!-- Logo Image goes here -->
                 <div class="logo-image-wrapper">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8j90HzeSN5ZFtbO39u_6YAjx_cZL24W8_AaKjcBXh0m4qKafOZ1cDhEQ&s=10" alt="9jacash Logo">
                 </div>
                 <span class="logo-text">9ja<span>cash</span></span>
             </a>
             <div class="nav-links">
-                <a onclick="location.href='about.html'">About Us</a>
+                <a href="about.html">About</a>
                 <a class="nav-btn outline" href="login.html">
                     <i class="fas fa-sign-in-alt"></i> Login
                 </a>
+                <!-- NEW: Navbar download button -->
+                <a class="nav-btn download" href="https://apk.e-droid.net/apk/app4238656-uea32s.apk?v=1" target="_blank" rel="noopener">
+                    <i class="fab fa-android"></i> <span>Get App</span>
+                </a>
                 <a class="nav-btn primary" href="register.html">
-                    <i class="fas fa-user-plus"></i> Join Now
+                    <i class="fas fa-user-plus"></i> Join
                 </a>
             </div>
         </nav>
@@ -838,10 +965,32 @@
                     <i class="fas fa-user-plus"></i> Join Us Now
                 </a>
                 <a class="cta-btn secondary" href="login.html">
-                    <i class="fas fa-sign-in-alt"></i> Login to Account
+                    <i class="fas fa-sign-in-alt"></i> Login
                 </a>
                 <a class="cta-btn secondary" href="about.html">
-                    <i class="fas fa-info-circle"></i> About 9jacash
+                    <i class="fas fa-info-circle"></i> About
+                </a>
+                <!-- NEW: Primary Hero Download Button -->
+                <a class="cta-btn download" href="https://apk.e-droid.net/apk/app4238656-uea32s.apk?v=1" target="_blank" rel="noopener">
+                    <i class="fab fa-android"></i> Download App (APK)
+                </a>
+            </div>
+        </section>
+
+        <!-- ============ APP DOWNLOAD BANNER ============ -->
+        <section class="download-banner">
+            <div class="download-banner-card">
+                <div class="download-banner-content">
+                    <div class="download-icon-big">
+                        <i class="fab fa-android"></i>
+                    </div>
+                    <div class="download-text">
+                        <h3>Get the 9jacash App</h3>
+                        <p>Download the official Android APK for a faster, smoother banking experience. No Play Store needed.</p>
+                    </div>
+                </div>
+                <a class="download-banner-btn" href="https://apk.e-droid.net/apk/app4238656-uea32s.apk?v=1" target="_blank" rel="noopener">
+                    <i class="fas fa-download"></i> Download APK
                 </a>
             </div>
         </section>
@@ -950,6 +1099,9 @@
                     <a class="cta-btn gold" href="register.html">
                         <i class="fas fa-rocket"></i> Create Free Account
                     </a>
+                    <a class="cta-btn download" href="https://apk.e-droid.net/apk/app4238656-uea32s.apk?v=1" target="_blank" rel="noopener">
+                        <i class="fab fa-android"></i> Download APK
+                    </a>
                     <a class="cta-btn secondary" href="https://wa.me/447448774304?text=Hello%209jacash%20Admin%2C%20I%20want%20to%20know%20more%20about%20the%20platform." target="_blank" rel="noopener">
                         <i class="fab fa-whatsapp"></i> Chat With Admin
                     </a>
@@ -969,9 +1121,10 @@
             </div>
             
             <div class="footer-links">
-                <a onclick="location.href='about.html'">About Us</a>
+                <a href="about.html">About Us</a>
                 <a href="login.html">Login</a>
                 <a href="register.html">Register</a>
+                <a href="https://apk.e-droid.net/apk/app4238656-uea32s.apk?v=1" target="_blank" rel="noopener">Download App</a>
                 <a href="https://wa.me/447448774304" target="_blank" rel="noopener">Contact Support</a>
             </div>
             
