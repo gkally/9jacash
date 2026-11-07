@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9jacash • Deposit Money</title>
+    <style>
+        /* Background with Image */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmNVaxQcoXP9M2fT2v3Qya9vonWGqYzdyThhiVIxB3ZAccRFSce8eQcx37&s=10') no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+            padding: 20px;
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Glassmorphism Card */
+        .container {
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 30px 25px;
+            width: 90%;
+            max-width: 400px;
+            margin: 40px auto;
+            border-radius: 16px;
+            box-shadow: 0px 8px 28px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 215, 0, 0.25);
+            position: relative;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Branded highlight */
+        .blue-text {
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+        }
+
+        .yellow-text {
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        /* Input & Buttons */
+        input, button {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: none;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.45);
+            font-weight: 600;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.3);
+        }
+
+        button {
+            background: linear-gradient(135deg, #27ae60, #1e8449);
+            color: white;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            letter-spacing: 0.5px;
+            box-shadow: 0 6px 16px rgba(39, 174, 96, 0.35);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(39, 174, 96, 0.45);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Hide Element */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Loading Animation */
+        .loading {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffd700;
+            animation: blink 1s infinite;
+            line-height: 1.5;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        /* Popup Message */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.92);
+            padding: 28px 24px;
+            border-radius: 16px;
+            text-align: center;
+            color: white;
+            display: none;
+            z-index: 999;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.25);
+            max-width: 90%;
+            width: 320px;
+        }
+
+        /* Support badge */
+        .support-badge {
+            margin-top: 22px;
+            font-size: 0.95rem;
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.35);
+            padding: 10px 14px;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            line-height: 1.5;
+        }
+
+        .support-badge strong {
+            font-weight: 800;
+            color: #fff;
+            background: rgba(255, 215, 0, 0.25);
+            padding: 2px 10px;
+            border-radius: 30px;
+            white-space: nowrap;
+        }
+
+        /* Account detail rows */
+        .account-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.07);
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .account-row span:first-child {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.85;
+            color: #e0e0e0;
+        }
+
+        .account-row span:last-child {
+            font-weight: 800;
+            color: #ffd700;
+            font-size: 1rem;
+            text-align: right;
+            word-break: break-word;
+        }
+
+        .amount-highlight {
+            background: rgba(255, 215, 0, 0.15);
+            border: 1px dashed #ffd700;
+            padding: 14px;
+            border-radius: 10px;
+            margin: 14px 0;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 22px 16px;
+                margin: 24px auto;
+            }
+            h2 {
+                font-size: 1.25rem;
+            }
+            .account-row span:last-child {
+                font-size: 0.92rem;
+            }
+            .support-badge {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STEP 1: Enter amount -->
+    <div class="container" id="step1">
+        <h2 class="blue-text">💰 Deposit Money</h2>
+        <input type="number" id="depositAmount" placeholder="Enter amount (₦)" min="100" oninput="updateAmountDisplay()">
+        <p id="amountDisplay" class="yellow-text" style="font-size: 18px; font-weight: bold; margin: 8px 0;"></p>
+        <button onclick="showAccount()">Next</button>
+        <div class="support-badge">
+            📞 Support / WhatsApp: <strong>+44 7448 774304</strong>
+        </div>
+    </div>
+
+    <!-- STEP 2: Display bank details -->
+    <div class="container hidden" id="step2">
+        <h2 class="blue-text">🏦 Send the Exact Amount</h2>
+        <div class="account-row">
+            <span>Bank</span>
+            <span id="bankName">OPay</span>
+        </div>
+        <div class="account-row">
+            <span>Account Number</span>
+            <span id="accountNumber">655 664 2862</span>
+        </div>
+        <div class="account-row">
+            <span>Account Name</span>
+            <span id="accountName">RUFUS GABRIEL</span>
+        </div>
+        <div class="amount-highlight">
+            Amount to Deposit: <span id="displayAmount" class="yellow-text">₦0</span>
+        </div>
+        <button onclick="confirmDeposit()">✅ I Have Paid</button>
+        <div class="support-badge">
+            📞 Support / WhatsApp: <strong>+44 7448 774304</strong>
+        </div>
+    </div>
+
+    <!-- STEP 3: Upload receipt -->
+    <div class="container hidden" id="step3">
+        <h2 class="blue-text">📤 Upload Payment Receipt</h2>
+        <input type="file" id="receiptUpload" accept="image/*">
+        <button onclick="sendToWhatsApp()">Submit</button>
+        <div class="support-badge">
+            📞 Support / WhatsApp: <strong>+44 7448 774304</strong>
+        </div>
+    </div>
+
+    <!-- POPUP -->
+    <div class="popup" id="popup">
+        <p class="loading">Processing deposit...</p>
+    </div>
+
+    <script>
+        let depositAmount = 0;
+        let selectedAccount = {};
+
+        // 9jacash – official deposit account (single, fixed details)
+        const accounts = [
+            {
+                bank: "OPay",
+                accountNumber: "6556642862",
+                accountName: "RUFUS GABRIEL"
+            }
+        ];
+
+        // Customer support / WhatsApp number (UK)
+        const SUPPORT_NUMBER = "447448774304";       // for wa.me link (no + or spaces)
+        const SUPPORT_DISPLAY = "+44 7448 774304";   // for user display
+
+        function updateAmountDisplay() {
+            depositAmount = document.getElementById("depositAmount").value;
+            document.getElementById("amountDisplay").textContent = depositAmount ? `You are depositing: ₦${depositAmount}` : "";
+        }
+
+        function showAccount() {
+            if (!depositAmount || depositAmount < 100) {
+                alert("Minimum deposit is ₦100.");
+                return;
+            }
+
+            // Always use the fixed 9jacash deposit account
+            selectedAccount = accounts[0];
+
+            document.getElementById("step1").innerHTML = '<p class="loading">Generating your virtual account details to add funds to your 9jacash...</p>' +
+                '<div class="support-badge" style="margin-top:18px;">📞 Support / WhatsApp: <strong>' + SUPPORT_DISPLAY + '</strong></div>';
+
+            setTimeout(() => {
+                document.getElementById("step1").classList.add("hidden");
+                document.getElementById("step2").classList.remove("hidden");
+                document.getElementById("displayAmount").textContent = "₦" + Number(depositAmount).toLocaleString();
+                document.getElementById("bankName").textContent = selectedAccount.bank;
+                // Format account number with spaces for readability
+                document.getElementById("accountNumber").textContent = selectedAccount.accountNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3");
+                document.getElementById("accountName").textContent = selectedAccount.accountName;
+            }, 2000);
+        }
+
+        function confirmDeposit() {
+            document.getElementById("popup").style.display = "block";
+            document.getElementById("popup").innerHTML = "<p class='loading'>Processing deposit...</p>";
+
+            setTimeout(() => {
+                document.getElementById("popup").innerHTML = "<p class='yellow-text'>Deposit processing... You will receive a notification soon.</p>";
+                setTimeout(() => {
+                    document.getElementById("popup").style.display = "none";
+                    document.getElementById("step2").classList.add("hidden");
+                    document.getElementById("step3").classList.remove("hidden");
+                }, 2500);
+            }, 2500);
+        }
+
+        function sendToWhatsApp() {
+            let fileInput = document.getElementById("receiptUpload");
+            if (fileInput.files.length === 0) {
+                alert("Please upload your payment receipt.");
+                return;
+            }
+
+            let message = `Hello 9jacash Support, I have made a deposit.\n\n` +
+                          `Amount: ₦${Number(depositAmount).toLocaleString()}\n` +
+                          `Bank: ${selectedAccount.bank}\n` +
+                          `Account Number: ${selectedAccount.accountNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3")}\n` +
+                          `Account Name: ${selectedAccount.accountName}\n\n` +
+                          `Please verify my payment. I will attach my receipt in this chat.`;
+
+            let encodedMessage = encodeURIComponent(message);
+            let whatsappURL = `https://wa.me/${SUPPORT_NUMBER}?text=${encodedMessage}`;
+
+            window.open(whatsappURL, "_blank");
+
+            setTimeout(() => {
+                alert("Now, please attach your receipt manually in the WhatsApp chat with +44 7448 774304.");
+            }, 1500);
+        }
+    </script>
+
+</body>
+</html>

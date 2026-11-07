@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9jacash • Earn with confidence</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💸</text></svg>" type="image/svg+xml">
+    <style>
+        :root {
+            --primary: #0b3d5c;
+            --primary-light: #1a5276;
+            --secondary: #f39c12;
+            --accent: #27ae60;
+            --light: #f8f9fa;
+            --dark: #1e2b37;
+            --danger: #e74c3c;
+            --shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+            --radius: 14px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f2f5f9;
+            color: #1a2634;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* ----- header ----- */
+        header {
+            background: linear-gradient(145deg, #0b3d5c, #1b6b8f);
+            color: white;
+            padding: 24px 0 18px;
+            box-shadow: var(--shadow);
+            border-bottom: 4px solid var(--secondary);
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+        
+        .logo {
+            font-size: 2.8rem;
+            line-height: 1;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        .logo-text {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, #ffe9b0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .tagline {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0.95;
+            margin-top: 8px;
+            letter-spacing: 0.3px;
+            color: #dfeef9;
+        }
+        
+        /* ----- main content ----- */
+        .main-content {
+            padding: 48px 0 40px;
+        }
+        
+        .welcome-section {
+            background: white;
+            border-radius: var(--radius);
+            padding: 36px 30px;
+            margin-bottom: 36px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 1px solid rgba(243, 156, 18, 0.15);
+        }
+        
+        .welcome-section h1 {
+            color: var(--primary);
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.3px;
+        }
+        
+        .welcome-section p {
+            font-size: 1.15rem;
+            color: #2f4052;
+            max-width: 750px;
+            margin: 0 auto 10px;
+        }
+        
+        .security-badge {
+            background: var(--accent);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 20px 0 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin: 40px 0 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 28px 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            border: 1px solid #eef2f6;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 28px rgba(0, 0, 0, 0.12);
+        }
+        
+        .feature-icon {
+            font-size: 2.8rem;
+            margin-bottom: 18px;
+            display: inline-block;
+        }
+        
+        .feature-card h3 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+        
+        .feature-card p {
+            color: #3b4c5c;
+            font-size: 1rem;
+        }
+        
+        /* ----- testimonials ----- */
+        .testimonials {
+            margin: 48px 0 32px;
+        }
+        
+        .testimonials h2 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin-bottom: 34px;
+            letter-spacing: -0.3px;
+        }
+        
+        .testimonial-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 26px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 26px 22px 22px;
+            box-shadow: var(--shadow);
+            position: relative;
+            border-left: 6px solid var(--secondary);
+        }
+        
+        .testimonial-card::before {
+            content: "“";
+            font-size: 4.5rem;
+            color: var(--secondary);
+            position: absolute;
+            top: -6px;
+            left: 12px;
+            opacity: 0.2;
+            font-family: serif;
+            line-height: 1;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 18px;
+            color: #2b3a48;
+            font-size: 1.02rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        
+        .author-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary), #e67e22);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px rgba(243, 156, 18, 0.4);
+        }
+        
+        .testimonial-author h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .testimonial-author p {
+            color: #5b6f80;
+            font-size: 0.9rem;
+        }
+        
+        /* ----- security section ----- */
+        .security-info {
+            background: white;
+            border-radius: var(--radius);
+            padding: 36px 30px;
+            box-shadow: var(--shadow);
+            margin: 42px 0 30px;
+            border: 1px solid #e4edf5;
+        }
+        
+        .security-info h2 {
+            color: var(--primary);
+            margin-bottom: 26px;
+            text-align: center;
+            font-size: 1.9rem;
+            font-weight: 800;
+        }
+        
+        .security-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 24px;
+        }
+        
+        .security-item {
+            text-align: center;
+            padding: 16px 12px;
+        }
+        
+        .security-icon {
+            font-size: 2.4rem;
+            margin-bottom: 14px;
+            display: block;
+        }
+        
+        .security-item h3 {
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .security-item p {
+            color: #3e5265;
+            font-size: 0.95rem;
+        }
+        
+        /* ----- CTA / contact ----- */
+        .cta-section {
+            background: linear-gradient(145deg, #0b3d5c, #1b6b8f);
+            color: white;
+            padding: 44px 32px;
+            border-radius: var(--radius);
+            text-align: center;
+            margin: 42px 0 28px;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+            border-bottom: 6px solid var(--secondary);
+        }
+        
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+            font-weight: 800;
+        }
+        
+        .cta-section p {
+            font-size: 1.12rem;
+            opacity: 0.95;
+            margin-bottom: 8px;
+        }
+        
+        .access-button {
+            background: var(--secondary);
+            color: #1e2b37;
+            border: none;
+            padding: 16px 44px;
+            font-size: 1.25rem;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 800;
+            margin: 20px 0 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .access-button:hover {
+            background: #e67e22;
+            transform: scale(1.02);
+            box-shadow: 0 12px 22px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* support number highlight */
+        .support-highlight {
+            margin-top: 24px;
+            background: rgba(255, 255, 255, 0.12);
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+            font-size: 1.15rem;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(4px);
+        }
+        
+        .support-highlight span {
+            color: #ffe484;
+            font-weight: 800;
+            margin-left: 6px;
+        }
+        
+        /* ----- footer ----- */
+        footer {
+            background-color: var(--dark);
+            color: #cddce9;
+            padding: 36px 0 24px;
+            margin-top: 20px;
+        }
+        
+        footer .logo-section {
+            margin-bottom: 16px;
+        }
+        
+        footer .logo-text {
+            font-size: 1.6rem;
+            background: linear-gradient(to right, #ffffff, #ffe9b0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        footer .logo {
+            font-size: 2rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 28px;
+            margin: 22px 0 20px;
+        }
+        
+        .footer-links a {
+            color: #d4e3f0;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            margin-top: 18px;
+            opacity: 0.7;
+            font-size: 0.92rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .logo-text {
+                font-size: 1.6rem;
+            }
+            .logo {
+                font-size: 2rem;
+            }
+            .welcome-section h1 {
+                font-size: 1.8rem;
+            }
+            .features, .testimonial-cards, .security-features {
+                grid-template-columns: 1fr;
+            }
+            .cta-section h2 {
+                font-size: 1.7rem;
+            }
+            .access-button {
+                font-size: 1rem;
+                padding: 14px 28px;
+            }
+            .support-highlight {
+                font-size: 1rem;
+                padding: 10px 18px;
+            }
+            .tagline {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-section">
+                <div class="logo">💸</div>
+                <div class="logo-text">9jacash</div>
+            </div>
+            <div class="tagline">Nigeria's smart earning platform — fast, secure, reliable</div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="main-content">
+            <div class="welcome-section">
+                <h1>Welcome to 9jacash</h1>
+                <p>Join thousands of Nigerians building real income with a platform designed for trust, speed, and financial growth.</p>
+                <div class="security-badge">🔒 SECURED & INSURED</div>
+                <p>Every transaction is protected with bank-level encryption and insured against unauthorized access — your earnings are safe with us.</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">💼</div>
+                    <h3>Multiple Income Streams</h3>
+                    <p>Diversify your earnings with vetted opportunities built for the Nigerian market.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast Withdrawals</h3>
+                    <p>Get paid quickly with instant transfers to any Nigerian bank account.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile First</h3>
+                    <p>Access 9jacash from any device — anywhere, anytime, with zero friction.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Referral Program</h3>
+                    <p>Earn extra income by inviting friends and family across Nigeria.</p>
+                </div>
+            </div>
+            
+            <div class="testimonials">
+                <h2>Trusted by Nigerians</h2>
+                <div class="testimonial-cards">
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            "9jacash changed my financial life. I started earning within my first week and now I comfortably cover my bills. Highly recommended for every Nigerian!"
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">CA</div>
+                            <div>
+                                <h4>Chinwe Adebayo</h4>
+                                <p>Lagos</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            "As a student in Abuja, this platform has been a lifesaver. The flexible earning options fit around my class schedule, and the security features give me peace of mind."
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">EO</div>
+                            <div>
+                                <h4>Emeka Okoro</h4>
+                                <p>Abuja</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-text">
+                            "I was skeptical at first, but after seeing my friend's success, I joined. Now I earn consistently and have even started a small business with my extra income. Thank you 9jacash!"
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">AA</div>
+                            <div>
+                                <h4>Amina Abdullahi</h4>
+                                <p>Kano</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="security-info">
+                <h2>Your security is our priority</h2>
+                <div class="security-features">
+                    <div class="security-item">
+                        <div class="security-icon">🔐</div>
+                        <h3>Bank-Level Encryption</h3>
+                        <p>All your data is protected with advanced security protocols.</p>
+                    </div>
+                    <div class="security-item">
+                        <div class="security-icon">🛡️</div>
+                        <h3>Insurance Protection</h3>
+                        <p>Your earnings are insured against unauthorized access.</p>
+                    </div>
+                    <div class="security-item">
+                        <div class="security-icon">📋</div>
+                        <h3>Verified Platform</h3>
+                        <p>Fully registered and compliant with Nigerian financial regulations.</p>
+                    </div>
+                    <div class="security-item">
+                        <div class="security-icon">👁️</div>
+                        <h3>24/7 Monitoring</h3>
+                        <p>Continuous security monitoring to protect your account.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CTA with customer support number -->
+            <div class="cta-section">
+                <h2>Ready to start earning?</h2>
+                <p>Join thousands of Nigerians who are already benefiting from 9jacash.</p>
+                <p>Access the secure platform below or reach out to our support team.</p>
+                <button class="access-button" onclick="window.location.href='https://dlxcash.onrender.com'">🚀 ACCESS SECURE PLATFORM</button>
+                <div class="support-highlight">
+                    📞 Customer Support / WhatsApp: <span>+44 7448 774304</span>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="logo-section">
+                <div class="logo">💸</div>
+                <div class="logo-text">9jacash</div>
+            </div>
+            <div class="footer-links">
+                <a href="#">About Us</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Support</a>
+                <a href="#">FAQ</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 9jacash. All rights reserved. Proudly serving Nigerians. <br>
+                <span style="opacity:0.8;">Customer care: +44 7448 774304</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

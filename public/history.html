@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History</title>
+    <style>
+        /* Background Image */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy2x55fLFZuYEK5hxYPk2DFj06cIvjKPnJQkUPuGFHblxWxW8i1wEjIi4&s=10') no-repeat center center fixed;
+            background-size: cover;
+            text-align: center;
+            padding: 20px;
+            color: white;
+        }
+        /* Glassmorphism Container */
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            padding: 20px;
+            width: 90%;
+            max-width: 350px;
+            margin: auto;
+            border-radius: 12px;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            color: white;
+        }
+        /* Transactions Styling */
+        .transaction {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            color: white;
+            position: relative;
+        }
+        /* Credit & Debit Colors */
+        .credit { background: rgba(0, 255, 0, 0.3); } /* Green for Credit */
+        .debit { background: rgba(255, 0, 0, 0.3); }  /* Red for Debit */
+        /* Receipt Popup */
+        .receipt-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.85);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            color: white;
+            display: none;
+            width: 80%;
+            max-width: 350px;
+        }
+        .receipt-popup button {
+            background: limegreen;
+            color: white;
+            font-size: 16px;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .receipt-popup button:hover {
+            background: darkgreen;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Transaction History</h2>
+        <div id="transactions">Loading...</div>
+    </div>
+    <!-- Receipt Popup -->
+    <div class="receipt-popup" id="receiptPopup">
+        <p id="receiptContent"></p>
+        <button onclick="closeReceipt()">Close</button>
+    </div>
+    <script>
+        function fetchHistory() {
+            fetch("/history")
+            .then(response => response.json())
+            .then(transactions => {
+                const historyDiv = document.getElementById("transactions");
+                historyDiv.innerHTML = transactions.length 
+                    ? transactions.map(tx => `
+                        <div class="transaction ${tx.type}">
+                            <p><strong>${tx.type.toUpperCase()}:</strong> ₦${tx.amount}</p>
+                            <p>To: ${tx.receiver} (${tx.account})</p>
+                            <p>Date: ${tx.date}</p>
+                            <button onclick="showReceipt(${JSON.stringify(tx).replace(/"/g, '&quot;')})">View Receipt</button>
+                        </div>
+                    `).join("")
+                    : "<p>No transactions yet.</p>";
+            })
+            .catch(error => console.error("Error:", error));
+        }
+        function showReceipt(transaction) {
+            const receiptPopup = document.getElementById("receiptPopup");
+            const receiptContent = document.getElementById("receiptContent");
+            receiptContent.innerHTML = `
+                <h3>Transaction Receipt</h3>
+                <p><strong>Type:</strong> ${transaction.type.toUpperCase()}</p>
+                <p><strong>Amount:</strong> ₦${transaction.amount}</p>
+                <p><strong>To:</strong> ${transaction.receiver} (${transaction.account})</p>
+                <p><strong>Date:</strong> ${transaction.date}</p>
+                <p><strong>Transaction ID:</strong> ${generateTransactionId()}</p>
+            `;
+            receiptPopup.style.display = "block";
+        }
+        function closeReceipt() {
+            document.getElementById("receiptPopup").style.display = "none";
+        }
+        function generateTransactionId() {
+            return "TXN" + Math.floor(Math.random() * 1000000);
+        }
+        fetchHistory();
+    </script>
+</body>
+</html>

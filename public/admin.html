@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - Banking System</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f9; }
+  .container { max-width: 900px; margin: auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+  h2 { margin-top: 0; }
+  .hidden { display: none; }
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+  th, td { padding: 12px 10px; text-align: left; border-bottom: 1px solid #ddd; }
+  th { background-color: #f2f2f2; }
+  tr:hover { background-color: #f5f5f5; }
+  button { margin: 2px; padding: 5px 10px; cursor: pointer; }
+  .actions form { display: inline-block; }
+  input[type="text"], input[type="password"], input[type="number"] { padding: 8px; margin-right: 5px; width: 180px; }
+  .logout-btn { float: right; background: #d9534f; color: white; border: none; padding: 8px 16px; border-radius: 4px; }
+  .logout-btn:hover { background: #c9302c; }
+  .error { color: red; margin: 10px 0; }
+  .success { color: green; margin: 10px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="loginSection">
+    <h2>Admin Login</h2>
+    <div id="loginError" class="error"></div>
+    <form id="loginForm">
+      <label>Admin Access PIN:</label><br>
+      <input type="password" id="adminPin" required>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <div id="adminPanel" class="hidden">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h2>Admin Dashboard</h2>
+      <button class="logout-btn" onclick="adminLogout()">Logout</button>
+    </div>
+    <div id="adminMessage" class="success"></div>
+    <div id="adminError" class="error"></div>
+
+    <h3>All Users</h3>
+    <table id="usersTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Balance</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <p id="noUsers" class="hidden">No users registered yet.</p>
+  </div>
+</div>
+
+<script>
+const API_BASE = '';
+
+// ---------- Login ----------
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const pin = document.getElementById('adminPin').value;
+  const errorDiv = document.getElementById('loginError');
+  errorDiv.textContent = '';
+
+  try {
+    const res = await fetch(`${API_BASE}/admin/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pin }),
+      credentials: 'include'
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      errorDiv.textContent = data.message || 'Invalid PIN';
+      return;
+    }
+    // Success – show admin panel
+    document.getElementById('loginSection').classList.add('hidden');
+    document.getElementById('adminPanel').classList.remove('hidden');
+    loadUsers();
+  } catch (err) {
+    errorDiv.textContent = 'Network error, please try again.';
+  }
+});
+
+// ---------- Logout ----------
+async function adminLogout() {
+  await fetch(`${API_BASE}/admin/logout`, { method: 'POST', credentials: 'include' });
+  document.getElementById('adminPanel').classList.add('hidden');
+  document.getElementById('loginSection').classList.remove('hidden');
+  document.getElementById('adminPin').value = '';
+}
+
+// ---------- Load Users ----------
+async function loadUsers() {
+  const adminError = document.getElementById('adminError');
+  const adminMessage = document.getElementById('adminMessage');
+  adminError.textContent = '';
+  adminMessage.textContent = '';
+
+  try {
+    const res = await fetch(`${API_BASE}/admin/users`, {
+      credentials: 'include'
+    });
+    if (res.status === 403) {
+      // admin session expired
+      adminLogout();
+      return;
+    }
+    const data = await res.json();
+    const users = data.users || [];
+    const tbody = document.querySelector('#usersTable tbody');
+    const noUsers = document.getElementById('noUsers');
+    tbody.innerHTML = '';
+
+    if (users.length === 0) {
+      noUsers.classList.remove('hidden');
+      return;
+    }
+    noUsers.classList.add('hidden');
+
+    users.forEach(user => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${escapeHtml(user.fullName)}</td>
+        <td>${escapeHtml(user.phone)}</td>
+        <td>₦${user.balance.toLocaleString()}</td>
+        <td style="color: ${user.active ? 'green' : 'red'}">${user.active ? 'Active' : 'Inactive'}</td>
+        <td class="actions">
+          <button onclick="showCreditForm('${user.phone}')">Credit</button>
+          <button onclick="showDebitForm('${user.phone}')">Debit</button>
+          <button onclick="toggleUserStatus('${user.phone}', ${user.active})">${user.active ? 'Deactivate' : 'Activate'}</button>
+          <button onclick="showChangePinForm('${user.phone}')">Change PIN</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  } catch (err) {
+    adminError.textContent = 'Failed to load users.';
+  }
+}
+
+// ---------- Action Handlers ----------
+function showCreditForm(phone) {
+  const amount = prompt('Enter amount to credit:');
+  if (!amount) return;
+  creditUser(phone, amount);
+}
+
+async function creditUser(phone, amount) {
+  const res = await fetch(`${API_BASE}/admin/user/credit`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ phone, amount }),
+    credentials: 'include'
+  });
+  const data = await res.json();
+  if (res.ok) {
+    document.getElementById('adminMessage').textContent = data.message;
+    loadUsers();
+  } else {
+    document.getElementById('adminError').textContent = data.message;
+  }
+}
+
+function showDebitForm(phone) {
+  const amount = prompt('Enter amount to debit:');
+  if (!amount) return;
+  debitUser(phone, amount);
+}
+
+async function debitUser(phone, amount) {
+  const res = await fetch(`${API_BASE}/admin/user/debit`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ phone, amount }),
+    credentials: 'include'
+  });
+  const data = await res.json();
+  if (res.ok) {
+    document.getElementById('adminMessage').textContent = data.message;
+    loadUsers();
+  } else {
+    document.getElementById('adminError').textContent = data.message;
+  }
+}
+
+async function toggleUserStatus(phone, currentActive) {
+  const action = currentActive ? 'deactivate' : 'activate';
+  if (!confirm(`Are you sure you want to ${action} this user?`)) return;
+  const endpoint = currentActive ? 'deactivate' : 'activate';
+  const res = await fetch(`${API_BASE}/admin/user/${endpoint}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ phone }),
+    credentials: 'include'
+  });
+  const data = await res.json();
+  if (res.ok) {
+    document.getElementById('adminMessage').textContent = data.message;
+    loadUsers();
+  } else {
+    document.getElementById('adminError').textContent = data.message;
+  }
+}
+
+function showChangePinForm(phone) {
+  const newPin = prompt('Enter new PIN (4 digits):');
+  if (!newPin || newPin.length < 4) {
+    alert('PIN must be at least 4 characters');
+    return;
+  }
+  changePin(phone, newPin);
+}
+
+async function changePin(phone, newPin) {
+  const res = await fetch(`${API_BASE}/admin/user/changepin`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ phone, newPin }),
+    credentials: 'include'
+  });
+  const data = await res.json();
+  if (res.ok) {
+    document.getElementById('adminMessage').textContent = data.message;
+  } else {
+    document.getElementById('adminError').textContent = data.message;
+  }
+}
+
+// helper escape
+function escapeHtml(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return String(text).replace(/[&<>"']/g, m => map[m]);
+}
+</script>
+</body>
+</html>

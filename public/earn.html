@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Earn Money | 9jacash</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <style>
+    :root {
+      --primary: #8a2be2;
+      --primary-dark: #6a1cb0;
+      --accent: #00d4ff;
+      --dark-bg: #0f0f23;
+      --card-bg: rgba(30, 30, 46, 0.9);
+      --text-light: #ffffff;
+      --text-gray: #b0b0d0;
+      --border-radius: 16px;
+      --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      --transition: all 0.3s ease;
+      --success: #4caf50;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a2e 50%, #16213e 100%);
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      box-shadow: var(--box-shadow);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .logo-icon {
+      font-size: 2rem;
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .container {
+      flex: 1;
+      max-width: 1000px;
+      width: 90%;
+      margin: 2rem auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      box-shadow: var(--box-shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      color: var(--accent);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .vip-gate {
+      text-align: center;
+    }
+
+    .vip-description {
+      color: var(--text-gray);
+      margin-bottom: 1.5rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 1rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .input-with-icon {
+      position: relative;
+      flex: 1;
+    }
+
+    .input-with-icon i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-gray);
+      z-index: 1;
+    }
+
+    .input-with-icon input {
+      width: 100%;
+      padding: 1rem 1rem 1rem 3rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--border-radius);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-light);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .input-with-icon input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
+    }
+
+    .input-with-icon input::placeholder {
+      color: var(--text-gray);
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(138, 43, 226, 0.5);
+    }
+
+    .btn:active {
+      transform: translateY(-1px);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, var(--success), #388e3c);
+    }
+
+    .btn-success:hover {
+      box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: rgba(138, 43, 226, 0.1);
+    }
+
+    .error-message {
+      color: #f44336;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .loading {
+      display: none;
+      margin: 1rem auto;
+      text-align: center;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-top: 4px solid var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .task-controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .task-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--border-radius);
+    }
+
+    .task-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+
+    .reward-badge {
+      background: linear-gradient(135deg, var(--success), #388e3c);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .media-container {
+      margin: 1.5rem 0;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+    }
+
+    #yt-player, #yt-audio {
+      width: 100%;
+      border-radius: var(--border-radius);
+    }
+
+    #yt-player {
+      height: 400px;
+    }
+
+    #yt-audio {
+      height: 200px;
+    }
+
+    .claim-section {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--border-radius);
+      margin-top: 1.5rem;
+    }
+
+    .testimonials-section {
+      position: relative;
+      height: 180px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .testimonial {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--border-radius);
+      border-left: 4px solid var(--accent);
+    }
+
+    .testimonial.active {
+      opacity: 1;
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 1rem;
+      color: var(--text-light);
+    }
+
+    .testimonial-author {
+      font-weight: 600;
+      color: var(--accent);
+      text-align: right;
+    }
+
+    .footer {
+      background: var(--card-bg);
+      padding: 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 2rem;
+    }
+
+    .footer p {
+      color: var(--text-gray);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .nav-links {
+        gap: 1.5rem;
+      }
+      
+      .input-group {
+        flex-direction: column;
+      }
+      
+      .task-info {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+      
+      #yt-player {
+        height: 250px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        width: 95%;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+      
+      .task-controls {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">
+        <i class="fas fa-wallet logo-icon"></i>
+        <span>9jacash</span>
+      </div>
+      <nav class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="transfer.html">Transfer</a>
+        <a href="history.html">History</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="card vip-gate" id="vip-gate">
+      <div class="card-header">
+        <i class="fas fa-crown card-icon"></i>
+        <h2 class="card-title">VIP Access Required</h2>
+      </div>
+      <p class="vip-description">Enter your VIP code to access premium earning tasks. Watch videos, listen to music, and earn money with 9jacash.</p>
+      
+      <div class="input-group">
+        <div class="input-with-icon">
+          <i class="fas fa-key"></i>
+          <input id="vip-input" placeholder="Enter VIP Code" />
+        </div>
+        <button class="btn" onclick="checkVip()">
+          <i class="fas fa-lock-open"></i>
+          Unlock Access
+        </button>
+      </div>
+      
+      <p id="vip-error" class="error-message"></p>
+      <div id="loading" class="loading">
+        <div class="loading-spinner"></div>
+        <p style="margin-top: 1rem;">Verifying your VIP code...</p>
+      </div>
+    </div>
+
+    <div class="card hidden" id="app">
+      <div class="card-header">
+        <i class="fas fa-play-circle card-icon"></i>
+        <h2 class="card-title">Earning Tasks</h2>
+      </div>
+      
+      <div class="task-controls">
+        <button class="btn" onclick="setMode('video')">
+          <i class="fas fa-video"></i>
+          Watch Videos
+        </button>
+        <button class="btn" onclick="setMode('music')">
+          <i class="fas fa-music"></i>
+          Listen to Music
+        </button>
+        <button class="btn btn-outline" onclick="setMode('auto')">
+          <i class="fas fa-random"></i>
+          Auto Select
+        </button>
+      </div>
+
+      <div class="task-info">
+        <div>
+          <h3 class="task-title" id="task-title">Loading task...</h3>
+        </div>
+        <div class="reward-badge">
+          <i class="fas fa-coins"></i>
+          €<span id="reward-amount">0</span>
+        </div>
+      </div>
+
+      <div id="video-wrapper" class="media-container hidden">
+        <div id="yt-player"></div>
+      </div>
+      <div id="audio-wrapper" class="media-container hidden">
+        <iframe id="yt-audio" frameborder="0" allow="autoplay" allowfullscreen></iframe>
+      </div>
+
+      <div id="claim-section" class="claim-section hidden">
+        <h3>Task Completed!</h3>
+        <p>Enter your 9jacash username to claim your reward</p>
+        
+        <div class="input-group" style="margin-top: 1rem;">
+          <div class="input-with-icon">
+            <i class="fas fa-user"></i>
+            <input id="user-name" placeholder="9jacash Username" />
+          </div>
+          <button class="btn btn-success" onclick="claimReward()">
+            <i class="fas fa-gift"></i>
+            Claim Reward
+          </button>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <button class="btn btn-outline" onclick="nextTask()">
+          <i class="fas fa-forward"></i>
+          Skip & Next Task
+        </button>
+      </div>
+
+      <div style="margin-top: 2rem;">
+        <div class="card-header">
+          <i class="fas fa-comments card-icon"></i>
+          <h2 class="card-title">What Our Users Say</h2>
+        </div>
+        <div id="testimonials" class="testimonials-section"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2025 9jacash Earning Platform. All rights reserved. • Support: +44 7448 774304</p>
+  </footer>
+
+  <script>
+    const VIP_CODE = "9JA9054";
+    const API_KEY = "AIzaSyBQ37WSC-Rsxt3nK1KPj8LiPv7Ua7Ezao8";
+    const SUPPORT_NUMBER = "447448774304";  // WhatsApp support (no + or spaces)
+    const PAY_MIN = 50, PAY_MAX = 300;
+    const VIDEO_TERMS = ["how to", "funny", "travel", "tech review", "vlog", "sports highlights"];
+    const MUSIC_TERMS = ["lofi", "jazz mix", "pop hits", "edm", "classical", "hip hop"];
+    const TESTIMONIAL_TEMPLATES = [
+      name => `“I earned €${rnd(60,150)} in one afternoon! Thanks 9jacash.” – ${name}`,
+      name => `“The tasks are fun and the payouts are real.” – ${name}`,
+      name => `“Best online side hustle of 2025!” – ${name}`,
+      name => `“Videos + music + cash = perfect.” – ${name}`,
+      name => `“9jacash is changing the game.” – ${name}`,
+      name => `“Got paid to watch my favorite music!” – ${name}`
+    ];
+    const NAMES = ["Ada", "Dickinson", "mexiccote", "Zhang", "Lucas", "Arthur", "Ethan", "Sofia", "Raj", "Elena", "Donald", "Daniel", "James", "Emily", "Ken", "Wayne", "Brian", "Gianna"];
+
+    let mode = "auto";
+    let player, watchTimer, watchStarted = false, currentTask;
+
+    const $ = id => document.getElementById(id);
+    const rnd = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+    const pick = list => list[Math.floor(Math.random() * list.length)];
+
+    function checkVip() {
+      const code = $("vip-input").value.trim();
+      if (code === VIP_CODE) {
+        $("vip-error").textContent = "";
+        $("loading").style.display = "block";
+        setTimeout(() => {
+          $("vip-gate").classList.add("hidden");
+          $("app").classList.remove("hidden");
+          $("loading").style.display = "none";
+          initTestimonials();
+          nextTask();
+        }, 3000);
+      } else {
+        $("vip-error").textContent = "Invalid code. Try again.";
+      }
+    }
+
+    function setMode(m) {
+      mode = m;
+      nextTask();
+    }
+
+    async function ytSearch(term) {
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&type=video&q=${encodeURIComponent(term)}&key=${API_KEY}`;
+      const j = await (await fetch(url)).json();
+      return j.items.filter(i => i.id && i.id.videoId);
+    }
+
+    async function nextTask() {
+      clearTimeout(watchTimer);
+      watchStarted = false;
+      $("claim-section").classList.add("hidden");
+
+      const useVideo = mode === "auto" ? Math.random() < 0.5 : mode === "video";
+      const term = pick(useVideo ? VIDEO_TERMS : MUSIC_TERMS);
+      const list = await ytSearch(term);
+      const chosen = pick(list);
+
+      currentTask = {
+        type: useVideo ? "video" : "music",
+        id: chosen.id.videoId,
+        title: chosen.snippet.title,
+        amount: rnd(PAY_MIN, PAY_MAX)
+      };
+
+      $("task-title").textContent = currentTask.title;
+      $("reward-amount").textContent = currentTask.amount;
+
+      if (useVideo) {
+        $("audio-wrapper").classList.add("hidden");
+        $("video-wrapper").classList.remove("hidden");
+        if (player) {
+          player.loadVideoById(currentTask.id);
+        } else {
+          player = new YT.Player("yt-player", {
+            height: "400",
+            width: "100%",
+            videoId: currentTask.id,
+            events: {
+              onStateChange: e => {
+                if (e.data === YT.PlayerState.PLAYING && !watchStarted) {
+                  watchStarted = true;
+                  const dur = player.getDuration();
+                  watchTimer = setTimeout(showClaim, dur * 1000);
+                }
+              }
+            }
+          });
+        }
+      } else {
+        $("video-wrapper").classList.add("hidden");
+        $("audio-wrapper").classList.remove("hidden");
+        $("yt-audio").src = `https://www.youtube.com/embed/${currentTask.id}?autoplay=1`;
+        watchTimer = setTimeout(showClaim, 91000);
+      }
+    }
+
+    function showClaim() {
+      $("claim-section").classList.remove("hidden");
+    }
+
+    function claimReward() {
+      const name = $("user-name").value.trim();
+      if (!name) return alert("Enter your 9jacash name");
+      const msg = encodeURIComponent(`Hi 9jacash Support, I completed a task and want to claim €${currentTask.amount}. My 9jacash name: ${name}.`);
+      window.open(`https://wa.me/${SUPPORT_NUMBER}?text=${msg}`, "_blank");
+      $("claim-section").classList.add("hidden");
+    }
+
+    function initTestimonials() {
+      const wrap = $("testimonials");
+      wrap.innerHTML = "";
+      const testimonialsArr = [];
+      for (let i = 0; i < 10; i++) {
+        const quote = pick(TESTIMONIAL_TEMPLATES)(pick(NAMES));
+        const div = document.createElement("div");
+        div.className = "testimonial";
+        div.innerHTML = `
+          <p class="testimonial-text">${quote}</p>
+          <p class="testimonial-author">Verified User</p>
+        `;
+        wrap.appendChild(div);
+        testimonialsArr.push(div);
+      }
+
+      let currentIndex = 0;
+      testimonialsArr[currentIndex].classList.add("active");
+
+      setInterval(() => {
+        testimonialsArr[currentIndex].classList.remove("active");
+        currentIndex = (currentIndex + 1) % testimonialsArr.length;
+        testimonialsArr[currentIndex].classList.add("active");
+      }, 5000);
+    }
+  </script>
+</body>
+</html>

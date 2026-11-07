@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | 9jacash</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8a2be2;
+            --primary-dark: #6a1cb0;
+            --accent: #00d4ff;
+            --gold: #ffd700;
+            --dark-bg: #0a0a1a;
+            --card-bg: rgba(22, 22, 38, 0.92);
+            --text-light: #ffffff;
+            --text-gray: #a8a8c8;
+            --border-radius: 18px;
+            --box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at 15% 20%, #1e1b3a 0%, #0a0a1a 55%, #060610 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background orbs */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.35;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body::before {
+            width: 420px;
+            height: 420px;
+            background: var(--primary);
+            top: -140px;
+            left: -120px;
+            animation: floatOrb 16s ease-in-out infinite alternate;
+        }
+
+        body::after {
+            width: 460px;
+            height: 460px;
+            background: var(--accent);
+            bottom: -180px;
+            right: -140px;
+            animation: floatOrb 20s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes floatOrb {
+            0%   { transform: translate(0, 0) scale(1); }
+            50%  { transform: translate(40px, -30px) scale(1.08); }
+            100% { transform: translate(-30px, 40px) scale(0.95); }
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1080px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            animation: fadeIn 0.9s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(28px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ============ BRAND SECTION ============ */
+        .brand-section {
+            flex: 1;
+            background: linear-gradient(150deg, var(--primary) 0%, var(--primary-dark) 55%, #3d0e6b 100%);
+            padding: 3rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-section::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            left: -60%;
+            width: 220%;
+            height: 220%;
+            background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 60%);
+            animation: rotateGlow 14s infinite linear;
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .brand-section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            margin-bottom: 1.6rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-icon-wrapper {
+            width: 62px;
+            height: 62px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(4px);
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--gold);
+        }
+
+        .logo-text {
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-text span {
+            color: var(--gold);
+        }
+
+        .brand-section h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            position: relative;
+            z-index: 2;
+            line-height: 1.3;
+        }
+
+        .brand-section > p {
+            font-size: 1rem;
+            margin-bottom: 1.8rem;
+            position: relative;
+            z-index: 2;
+            opacity: 0.92;
+            max-width: 320px;
+        }
+
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            margin-top: 0.3rem;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 340px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.8rem 1rem;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(6px);
+            transition: var(--transition);
+            text-align: left;
+        }
+
+        .feature:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateX(4px);
+        }
+
+        .feature-icon-box {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            background: rgba(255, 255, 255, 0.16);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature i {
+            font-size: 1.05rem;
+            color: var(--gold);
+        }
+
+        .feature p {
+            margin: 0;
+            font-size: 0.86rem;
+            font-weight: 500;
+            line-height: 1.35;
+        }
+
+        /* ============ FORM SECTION ============ */
+        .form-section {
+            flex: 1.15;
+            padding: 2.6rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: rgba(14, 14, 26, 0.6);
+        }
+
+        .form-section h2 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin-bottom: 0.4rem;
+            background: linear-gradient(90deg, #ffffff, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .form-section > p {
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+            font-size: 0.92rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.1rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.45rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            letter-spacing: 0.3px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i.input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+            z-index: 1;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .input-with-icon input {
+            width: 100%;
+            padding: 0.92rem 2.8rem 0.92rem 2.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 13px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        .input-with-icon input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(138, 43, 226, 0.08);
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.18);
+        }
+
+        .input-with-icon input:focus + i.input-icon,
+        .input-with-icon input:not(:placeholder-shown) + i.input-icon {
+            color: var(--accent);
+        }
+
+        .input-with-icon input::placeholder {
+            color: rgba(168, 168, 200, 0.6);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 0.9rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            cursor: pointer;
+            font-size: 0.95rem;
+            padding: 0.3rem;
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .toggle-password:hover {
+            color: var(--accent);
+        }
+
+        .referral-note {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 3px solid var(--accent);
+            padding: 0.65rem 0.9rem;
+            border-radius: 9px;
+            margin-top: -0.3rem;
+            margin-bottom: 0.9rem;
+            font-size: 0.8rem;
+            color: var(--accent);
+            line-height: 1.5;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.02rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 0.5rem;
+            box-shadow: 0 8px 22px rgba(138, 43, 226, 0.4);
+            letter-spacing: 0.4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(138, 43, 226, 0.55);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.75;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.6rem;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .login-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .login-link a:hover {
+            color: var(--gold);
+            text-decoration: underline;
+        }
+
+        #message {
+            margin-top: 1.2rem;
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .success {
+            background: rgba(0, 200, 83, 0.16);
+            color: #4caf50;
+            border: 1px solid rgba(0, 200, 83, 0.35);
+        }
+
+        .error {
+            background: rgba(244, 67, 54, 0.16);
+            color: #ff6b6b;
+            border: 1px solid rgba(244, 67, 54, 0.35);
+        }
+
+        .support-line {
+            text-align: center;
+            margin-top: 1.4rem;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.65rem;
+            border-radius: 10px;
+            border: 1px dashed rgba(255, 215, 0, 0.3);
+        }
+
+        .support-line strong {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 850px) {
+            .container {
+                flex-direction: column;
+                max-width: 520px;
+            }
+
+            .brand-section {
+                padding: 2.2rem 1.8rem;
+            }
+
+            .brand-section h1 {
+                font-size: 1.6rem;
+            }
+
+            .features {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.7rem;
+                max-width: 100%;
+            }
+
+            .feature {
+                flex: 1 1 140px;
+                padding: 0.65rem 0.75rem;
+                justify-content: center;
+            }
+
+            .feature p {
+                font-size: 0.76rem;
+                text-align: center;
+            }
+
+            .feature-icon-box {
+                display: none;
+            }
+
+            .form-section {
+                padding: 2.2rem 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem 0.8rem;
+            }
+
+            .brand-section,
+            .form-section {
+                padding: 1.7rem 1.4rem;
+            }
+
+            .logo-text {
+                font-size: 1.8rem;
+            }
+
+            .logo-icon-wrapper {
+                width: 52px;
+                height: 52px;
+            }
+
+            .brand-section h1 {
+                font-size: 1.45rem;
+            }
+
+            .form-section h2 {
+                font-size: 1.6rem;
+            }
+
+            .input-with-icon input {
+                font-size: 16px; /* prevent iOS zoom */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ========== BRAND PANEL ========== -->
+        <div class="brand-section">
+            <div class="logo">
+                <div class="logo-icon-wrapper">
+                    <i class="fas fa-wallet logo-icon"></i>
+                </div>
+                <span class="logo-text">9ja<span>cash</span></span>
+            </div>
+            <h1>Join Thousands Earning Online</h1>
+            <p>Create your 9jacash account and start your journey to financial freedom today.</p>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon-box"><i class="fas fa-shield-alt"></i></div>
+                    <p>Secure &amp; Encrypted Transactions</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon-box"><i class="fas fa-bolt"></i></div>
+                    <p>Instant Withdrawals &amp; Deposits</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon-box"><i class="fas fa-headphones"></i></div>
+                    <p>Earn by Listening to Music</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon-box"><i class="fas fa-user-friends"></i></div>
+                    <p>Referral Bonuses – You &amp; Friend Get ₦1000 &amp; ₦500</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== FORM PANEL ========== -->
+        <div class="form-section">
+            <h2>Create Account</h2>
+            <p>Register to start using your secure 9jacash wallet</p>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <div class="input-with-icon">
+                        <input type="text" id="fullName" placeholder="Enter your full name" required autocomplete="name">
+                        <i class="fas fa-user input-icon"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <div class="input-with-icon">
+                        <input type="tel" id="phone" placeholder="Enter your phone number" required autocomplete="tel">
+                        <i class="fas fa-phone input-icon"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="pin">6-Digit PIN</label>
+                    <div class="input-with-icon">
+                        <input type="password" id="pin" placeholder="Create a 6-digit PIN" required minlength="6" maxlength="6" inputmode="numeric" autocomplete="new-password">
+                        <i class="fas fa-lock input-icon"></i>
+                        <button type="button" class="toggle-password" id="togglePin" aria-label="Show PIN">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="referralCode">Referral Code <span style="color:var(--text-gray); font-weight:normal;">(Optional)</span></label>
+                    <div class="input-with-icon">
+                        <input type="text" id="referralCode" placeholder="Enter referral code if you have one">
+                        <i class="fas fa-gift input-icon"></i>
+                    </div>
+                </div>
+
+                <div id="referralNote" class="referral-note" style="display:none;">
+                    <i class="fas fa-star"></i> Referral code applied! You'll get ₦500 extra on signup, and your referrer gets ₦1000.
+                </div>
+
+                <button type="submit" class="btn" id="registerBtn">
+                    <i class="fas fa-user-plus"></i>
+                    Create Account
+                </button>
+            </form>
+
+            <div id="message"></div>
+
+            <div class="login-link">
+                Already have an account? <a href="login.html">Sign In</a>
+            </div>
+
+            <div class="support-line">
+                📞 Customer Support / WhatsApp: <strong>+44 7448 774304</strong>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SUPPORT_NUMBER = "447448774304"; // WhatsApp support (no + or spaces)
+
+        // Password visibility toggle
+        const togglePin = document.getElementById("togglePin");
+        const pinInput = document.getElementById("pin");
+        togglePin.addEventListener("click", () => {
+            const isPassword = pinInput.type === "password";
+            pinInput.type = isPassword ? "text" : "password";
+            togglePin.innerHTML = isPassword
+                ? '<i class="fas fa-eye-slash"></i>'
+                : '<i class="fas fa-eye"></i>';
+            togglePin.setAttribute("aria-label", isPassword ? "Hide PIN" : "Show PIN");
+        });
+
+        // Get referral code from URL parameter 'ref'
+        const urlParams = new URLSearchParams(window.location.search);
+        const refCode = urlParams.get('ref');
+
+        const referralInput = document.getElementById('referralCode');
+        const referralNote = document.getElementById('referralNote');
+
+        if (refCode && refCode.trim() !== "") {
+            referralInput.value = refCode;
+            referralNote.style.display = 'block';
+            referralNote.innerHTML = `<i class="fas fa-star"></i> Referral code <strong>${refCode}</strong> applied! You will receive an extra ₦500 on signup, and your referrer gets ₦1000.`;
+        }
+
+        // Show note when user manually types a code
+        referralInput.addEventListener('input', function () {
+            if (this.value.trim() !== "") {
+                referralNote.style.display = 'block';
+                referralNote.innerHTML = `<i class="fas fa-star"></i> Using referral code <strong>${this.value}</strong> will give you ₦500 extra on signup and reward your referrer with ₦1000.`;
+            } else {
+                referralNote.style.display = 'none';
+            }
+        });
+
+        // Submit handler
+        document.getElementById("registerForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const fullName = document.getElementById("fullName").value;
+            const phone = document.getElementById("phone").value;
+            const pin = document.getElementById("pin").value;
+            const referralCode = document.getElementById("referralCode").value.trim() || null;
+
+            const submitBtn = document.getElementById("registerBtn");
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+            submitBtn.disabled = true;
+
+            const messageElement = document.getElementById("message");
+            messageElement.style.display = "none";
+
+            try {
+                const response = await fetch("/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ fullName, phone, pin, referralCode })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    messageElement.textContent = data.message || "Account created successfully! Redirecting...";
+                    messageElement.className = "success";
+                    messageElement.style.display = "block";
+
+                    setTimeout(() => {
+                        window.location.href = data.redirect || "dashboard.html";
+                    }, 1800);
+                } else {
+                    messageElement.textContent = data.message || "Registration failed. Please try again.";
+                    messageElement.className = "error";
+                    messageElement.style.display = "block";
+                }
+            } catch (error) {
+                messageElement.textContent = "Network error. Please check your connection and try again.";
+                messageElement.className = "error";
+                messageElement.style.display = "block";
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Input validations
+        document.getElementById("phone").addEventListener("input", function () {
+            this.value = this.value.replace(/[^0-9+]/g, "");
+        });
+
+        pinInput.addEventListener("input", function () {
+            this.value = this.value.replace(/[^0-9]/g, "").slice(0, 6);
+        });
+    </script>
+</body>
+</html>
