@@ -4,8 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>9jacash | Nigeria's #1 Earning & Banking Platform</title>
+    
+    <!-- FAVICON: Uses the image you provided -->
+    <link rel="icon" type="image/jpeg" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8j90HzeSN5ZFtbO39u_6YAjx_cZL24W8_AaKjcBXh0m4qKafOZ1cDhEQ&s=10">
+    <link rel="apple-touch-icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8j90HzeSN5ZFtbO39u_6YAjx_cZL24W8_AaKjcBXh0m4qKafOZ1cDhEQ&s=10">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primary: #8a2be2;
@@ -97,26 +103,33 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.8rem;
             font-size: 1.6rem;
             font-weight: 800;
             letter-spacing: -0.5px;
+            text-decoration: none;
+            color: var(--text-light);
         }
 
-        .logo-icon-wrapper {
-            width: 46px;
-            height: 46px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        /* Custom Logo Image Wrapper */
+        .logo-image-wrapper {
+            width: 48px;
+            height: 48px;
             border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 6px 16px rgba(138, 43, 226, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 6px 16px rgba(138, 43, 226, 0.4);
+            background: #1a1a2e;
         }
 
-        .logo-icon {
-            font-size: 1.4rem;
-            color: var(--gold);
+        .logo-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
         }
 
         .logo-text span {
@@ -177,7 +190,7 @@
 
         /* ============ HERO SECTION ============ */
         .hero {
-            padding: 3rem 0 2rem;
+            padding: 3.5rem 0 2rem;
             text-align: center;
             animation: fadeIn 0.9s ease-out;
         }
@@ -209,7 +222,7 @@
         }
 
         .hero h1 {
-            font-size: 2.8rem;
+            font-size: 3rem;
             font-weight: 800;
             line-height: 1.15;
             margin-bottom: 1.2rem;
@@ -240,6 +253,26 @@
             margin: 0 auto 2.5rem;
             backdrop-filter: blur(10px);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bonus-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-25deg);
+            animation: shine 4s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
         }
 
         .bonus-card .bonus-label {
@@ -265,6 +298,8 @@
         .bonus-card .bonus-desc {
             font-size: 0.92rem;
             color: var(--text-gray);
+            position: relative;
+            z-index: 1;
         }
 
         /* CTA Buttons */
@@ -412,7 +447,7 @@
             background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(138, 43, 226, 0.12));
             border: 1px solid rgba(255, 215, 0, 0.3);
             border-radius: var(--border-radius);
-            padding: 2.2rem;
+            padding: 2.5rem 2rem;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -446,7 +481,7 @@
         }
 
         .endorsement-card h2 {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 800;
             margin-bottom: 0.8rem;
             position: relative;
@@ -499,7 +534,7 @@
             border-radius: var(--border-radius);
             padding: 1.8rem;
             position: relative;
-            border-left: 4px solid var(--secondary);
+            border-left: 4px solid var(--primary);
         }
 
         .testimonial-card::before {
@@ -590,12 +625,28 @@
             z-index: 1;
         }
 
+        .footer-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .footer-logo .logo-image-wrapper {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+        }
+
         footer .footer-links {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 1.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
         }
 
         footer .footer-links a {
@@ -614,6 +665,7 @@
             color: var(--text-gray);
             font-size: 0.8rem;
             opacity: 0.8;
+            line-height: 1.8;
         }
 
         footer .copyright strong {
@@ -727,7 +779,7 @@
             .logo {
                 font-size: 1.3rem;
             }
-            .logo-icon-wrapper {
+            .logo-image-wrapper {
                 width: 40px;
                 height: 40px;
             }
@@ -738,12 +790,13 @@
     <div class="container">
         <!-- ============ NAVBAR ============ -->
         <nav class="navbar">
-            <div class="logo">
-                <div class="logo-icon-wrapper">
-                    <i class="fas fa-wallet logo-icon"></i>
+            <a href="index.html" class="logo">
+                <!-- Logo Image goes here -->
+                <div class="logo-image-wrapper">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8j90HzeSN5ZFtbO39u_6YAjx_cZL24W8_AaKjcBXh0m4qKafOZ1cDhEQ&s=10" alt="9jacash Logo">
                 </div>
                 <span class="logo-text">9ja<span>cash</span></span>
-            </div>
+            </a>
             <div class="nav-links">
                 <a onclick="location.href='about.html'">About Us</a>
                 <a class="nav-btn outline" href="login.html">
@@ -908,14 +961,23 @@
     <!-- ============ FOOTER ============ -->
     <footer>
         <div class="container">
+            <div class="footer-logo">
+                <div class="logo-image-wrapper">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8j90HzeSN5ZFtbO39u_6YAjx_cZL24W8_AaKjcBXh0m4qKafOZ1cDhEQ&s=10" alt="9jacash Logo">
+                </div>
+                <span class="logo-text">9ja<span>cash</span></span>
+            </div>
+            
             <div class="footer-links">
                 <a onclick="location.href='about.html'">About Us</a>
                 <a href="login.html">Login</a>
                 <a href="register.html">Register</a>
                 <a href="https://wa.me/447448774304" target="_blank" rel="noopener">Contact Support</a>
             </div>
+            
             <p class="copyright">
-                &copy; 2025 <strong>9jacash</strong>. All rights reserved. • Hosted &amp; Endorsed by <strong>B-LORD</strong>, Nigeria Billionaire Business Man.<br>
+                &copy; 2025 <strong>9jacash</strong>. All rights reserved. <br>
+                Hosted &amp; Endorsed by <strong>B-LORD</strong>, Nigeria Billionaire Business Man.<br>
                 <span style="font-size:0.78rem;">Support: +44 7448 774304</span>
             </p>
         </div>
