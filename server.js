@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const crypto = require("crypto");
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 1000; // <-- PORT CHANGED TO 1000
 
 // Dynamic import for node-fetch v3+
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
