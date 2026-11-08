@@ -1,251 +1,761 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel - Banking System</title>
-<style>
-  body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f9; }
-  .container { max-width: 900px; margin: auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-  h2 { margin-top: 0; }
-  .hidden { display: none; }
-  table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-  th, td { padding: 12px 10px; text-align: left; border-bottom: 1px solid #ddd; }
-  th { background-color: #f2f2f2; }
-  tr:hover { background-color: #f5f5f5; }
-  button { margin: 2px; padding: 5px 10px; cursor: pointer; }
-  .actions form { display: inline-block; }
-  input[type="text"], input[type="password"], input[type="number"] { padding: 8px; margin-right: 5px; width: 180px; }
-  .logout-btn { float: right; background: #d9534f; color: white; border: none; padding: 8px 16px; border-radius: 4px; }
-  .logout-btn:hover { background: #c9302c; }
-  .error { color: red; margin: 10px 0; }
-  .success { color: green; margin: 10px 0; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel · Banking System</title>
+  <!-- Google Font & Icon Library -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f3f8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: #1e293b;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.15), 0 10px 15px -6px rgba(0, 0, 0, 0.05);
+      padding: 36px 40px;
+      transition: all 0.2s ease;
+    }
+
+    /* ----- LOGIN SECTION (clean, centered card) ----- */
+    #loginSection {
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 16px 0;
+    }
+
+    #loginSection h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0b1e33;
+      margin-bottom: 8px;
+    }
+
+    #loginSection h2 i {
+      color: #2563eb;
+      margin-right: 8px;
+    }
+
+    .login-sub {
+      color: #64748b;
+      margin-bottom: 32px;
+      font-size: 0.95rem;
+    }
+
+    .input-group {
+      text-align: left;
+      margin-bottom: 24px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 1rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 16px;
+      background: #f8fafc;
+      transition: 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: #2563eb;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: #1e293b;
+      color: white;
+      border: none;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      letter-spacing: 0.3px;
+    }
+
+    .login-btn i {
+      font-size: 1.1rem;
+    }
+
+    .login-btn:hover {
+      background: #0f172a;
+      transform: scale(0.98);
+    }
+
+    .login-btn:active {
+      transform: scale(0.96);
+    }
+
+    .error {
+      color: #dc2626;
+      background: #fee2e2;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .error i {
+      font-size: 1.1rem;
+    }
+
+    /* ----- ADMIN PANEL ----- */
+    #adminPanel {
+      width: 100%;
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .admin-header h2 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0b1e33;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .admin-header h2 i {
+      color: #2563eb;
+      font-size: 2rem;
+    }
+
+    .logout-btn {
+      background: transparent;
+      border: 1.5px solid #e2e8f0;
+      color: #1e293b;
+      padding: 10px 22px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+    }
+
+    .logout-btn:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .logout-btn i {
+      font-size: 1rem;
+    }
+
+    /* message banners */
+    .message-banner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 20px;
+      border-radius: 16px;
+      margin-bottom: 18px;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .success {
+      background: #e4f5ea;
+      color: #0b6b3a;
+      border-left: 5px solid #10b981;
+    }
+
+    .success i {
+      color: #10b981;
+    }
+
+    .error-banner {
+      background: #fee2e2;
+      color: #991b1b;
+      border-left: 5px solid #ef4444;
+    }
+
+    .error-banner i {
+      color: #ef4444;
+    }
+
+    /* table card */
+    .users-card {
+      background: #ffffff;
+      border-radius: 24px;
+      border: 1px solid #f1f5f9;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      background: #fafcff;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    .table-header h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .table-header h3 i {
+      color: #2563eb;
+      font-size: 1.2rem;
+    }
+
+    .badge-count {
+      background: #e2e8f0;
+      color: #1e293b;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 16px 24px;
+      background: #ffffff;
+      color: #475569;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid #e9eef3;
+    }
+
+    td {
+      padding: 16px 24px;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: middle;
+      color: #1e293b;
+      font-weight: 500;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: #fafbff;
+    }
+
+    .user-name {
+      font-weight: 600;
+      color: #0b1e33;
+    }
+
+    .balance {
+      font-weight: 700;
+      color: #0b6b3a;
+      font-family: 'Inter', monospace;
+      letter-spacing: -0.01em;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      width: fit-content;
+    }
+
+    .status-active {
+      background: #e4f5ea;
+      color: #0b6b3a;
+    }
+
+    .status-active i {
+      font-size: 0.7rem;
+      color: #10b981;
+    }
+
+    .status-inactive {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .status-inactive i {
+      font-size: 0.7rem;
+      color: #ef4444;
+    }
+
+    /* action buttons – clean icon buttons */
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 12px;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid #e2e8f0;
+      background: white;
+      color: #1e293b;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    .action-btn i {
+      font-size: 0.8rem;
+    }
+
+    .action-btn.credit:hover {
+      background: #e4f5ea;
+      border-color: #10b981;
+      color: #0b6b3a;
+    }
+
+    .action-btn.debit:hover {
+      background: #fee2e2;
+      border-color: #ef4444;
+      color: #991b1b;
+    }
+
+    .action-btn.toggle:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .action-btn.pin:hover {
+      background: #eff6ff;
+      border-color: #2563eb;
+      color: #1e4fd9;
+    }
+
+    /* empty state */
+    .empty-state {
+      padding: 48px 24px;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      color: #cbd5e1;
+    }
+
+    /* utility */
+    .hidden {
+      display: none !important;
+    }
+
+    /* responsive */
+    @media (max-width: 700px) {
+      .container {
+        padding: 24px 16px;
+      }
+      .admin-header h2 {
+        font-size: 1.5rem;
+      }
+      th, td {
+        padding: 12px 14px;
+      }
+      .actions {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
 <div class="container">
+  <!-- LOGIN SECTION -->
   <div id="loginSection">
-    <h2>Admin Login</h2>
-    <div id="loginError" class="error"></div>
+    <h2><i class="fas fa-shield-haltered"></i> Admin</h2>
+    <p class="login-sub">Enter your access PIN to continue</p>
+    <div id="loginError" class="error hidden"><i class="fas fa-exclamation-circle"></i> <span></span></div>
     <form id="loginForm">
-      <label>Admin Access PIN:</label><br>
-      <input type="password" id="adminPin" required>
-      <button type="submit">Login</button>
+      <div class="input-group">
+        <label for="adminPin"><i class="fas fa-lock" style="margin-right: 6px;"></i> Access PIN</label>
+        <input type="password" id="adminPin" placeholder="••••••••" required autocomplete="off">
+      </div>
+      <button type="submit" class="login-btn">
+        <i class="fas fa-arrow-right-to-bracket"></i> Sign in
+      </button>
     </form>
   </div>
 
+  <!-- ADMIN DASHBOARD -->
   <div id="adminPanel" class="hidden">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <h2>Admin Dashboard</h2>
-      <button class="logout-btn" onclick="adminLogout()">Logout</button>
+    <div class="admin-header">
+      <h2><i class="fas fa-chart-pie"></i> Dashboard</h2>
+      <button class="logout-btn" onclick="adminLogout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
     </div>
-    <div id="adminMessage" class="success"></div>
-    <div id="adminError" class="error"></div>
 
-    <h3>All Users</h3>
-    <table id="usersTable">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Phone</th>
-          <th>Balance</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    <p id="noUsers" class="hidden">No users registered yet.</p>
+    <!-- message banners -->
+    <div id="adminMessage" class="message-banner success hidden"><i class="fas fa-check-circle"></i> <span></span></div>
+    <div id="adminError" class="message-banner error-banner hidden"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+
+    <!-- users table card -->
+    <div class="users-card">
+      <div class="table-header">
+        <h3><i class="fas fa-users"></i> All Users</h3>
+        <span class="badge-count" id="userCount">0</span>
+      </div>
+      <table id="usersTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Balance</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div id="noUsers" class="empty-state hidden">
+        <i class="fas fa-user-slash"></i>
+        <span>No users registered yet</span>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-const API_BASE = '';
+  const API_BASE = '';
+  // ─── helpers ───
+  const loginErrorDiv = document.getElementById('loginError');
+  const loginErrorSpan = loginErrorDiv.querySelector('span');
+  const adminMessageDiv = document.getElementById('adminMessage');
+  const adminMessageSpan = adminMessageDiv.querySelector('span');
+  const adminErrorDiv = document.getElementById('adminError');
+  const adminErrorSpan = adminErrorDiv.querySelector('span');
 
-// ---------- Login ----------
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const pin = document.getElementById('adminPin').value;
-  const errorDiv = document.getElementById('loginError');
-  errorDiv.textContent = '';
-
-  try {
-    const res = await fetch(`${API_BASE}/admin/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pin }),
-      credentials: 'include'
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      errorDiv.textContent = data.message || 'Invalid PIN';
-      return;
-    }
-    // Success – show admin panel
-    document.getElementById('loginSection').classList.add('hidden');
-    document.getElementById('adminPanel').classList.remove('hidden');
-    loadUsers();
-  } catch (err) {
-    errorDiv.textContent = 'Network error, please try again.';
+  function hideMessages() {
+    adminMessageDiv.classList.add('hidden');
+    adminErrorDiv.classList.add('hidden');
+    loginErrorDiv.classList.add('hidden');
   }
-});
 
-// ---------- Logout ----------
-async function adminLogout() {
-  await fetch(`${API_BASE}/admin/logout`, { method: 'POST', credentials: 'include' });
-  document.getElementById('adminPanel').classList.add('hidden');
-  document.getElementById('loginSection').classList.remove('hidden');
-  document.getElementById('adminPin').value = '';
-}
+  function showLoginError(msg) {
+    loginErrorSpan.textContent = msg;
+    loginErrorDiv.classList.remove('hidden');
+  }
 
-// ---------- Load Users ----------
-async function loadUsers() {
-  const adminError = document.getElementById('adminError');
-  const adminMessage = document.getElementById('adminMessage');
-  adminError.textContent = '';
-  adminMessage.textContent = '';
+  function showAdminMessage(msg) {
+    adminMessageSpan.textContent = msg;
+    adminMessageDiv.classList.remove('hidden');
+    adminErrorDiv.classList.add('hidden');
+    // auto hide after 4s
+    setTimeout(() => adminMessageDiv.classList.add('hidden'), 4000);
+  }
 
-  try {
-    const res = await fetch(`${API_BASE}/admin/users`, {
-      credentials: 'include'
-    });
-    if (res.status === 403) {
-      // admin session expired
-      adminLogout();
+  function showAdminError(msg) {
+    adminErrorSpan.textContent = msg;
+    adminErrorDiv.classList.remove('hidden');
+    adminMessageDiv.classList.add('hidden');
+    setTimeout(() => adminErrorDiv.classList.add('hidden'), 5000);
+  }
+
+  // ─── login ───
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    hideMessages();
+    const pin = document.getElementById('adminPin').value.trim();
+    if (!pin) {
+      showLoginError('Please enter your PIN.');
       return;
     }
-    const data = await res.json();
-    const users = data.users || [];
+
+    try {
+      const res = await fetch(`${API_BASE}/admin/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pin }),
+        credentials: 'include'
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        showLoginError(data.message || 'Invalid PIN');
+        return;
+      }
+      // success
+      document.getElementById('loginSection').classList.add('hidden');
+      document.getElementById('adminPanel').classList.remove('hidden');
+      document.getElementById('adminPin').value = '';
+      loadUsers();
+    } catch (err) {
+      showLoginError('Network error. Please try again.');
+    }
+  });
+
+  // ─── logout ───
+  async function adminLogout() {
+    try {
+      await fetch(`${API_BASE}/admin/logout`, { method: 'POST', credentials: 'include' });
+    } catch (e) { /* ignore */ }
+    document.getElementById('adminPanel').classList.add('hidden');
+    document.getElementById('loginSection').classList.remove('hidden');
+    document.getElementById('adminPin').value = '';
+    hideMessages();
+  }
+
+  // ─── load users ───
+  async function loadUsers() {
+    hideMessages();
     const tbody = document.querySelector('#usersTable tbody');
     const noUsers = document.getElementById('noUsers');
+    const userCount = document.getElementById('userCount');
     tbody.innerHTML = '';
 
-    if (users.length === 0) {
-      noUsers.classList.remove('hidden');
+    try {
+      const res = await fetch(`${API_BASE}/admin/users`, { credentials: 'include' });
+      if (res.status === 403) {
+        await adminLogout();
+        return;
+      }
+      const data = await res.json();
+      const users = data.users || [];
+      userCount.textContent = users.length;
+
+      if (users.length === 0) {
+        noUsers.classList.remove('hidden');
+        document.getElementById('usersTable').classList.add('hidden');
+        return;
+      }
+      noUsers.classList.add('hidden');
+      document.getElementById('usersTable').classList.remove('hidden');
+
+      users.forEach(user => {
+        const row = document.createElement('tr');
+
+        // status badge
+        const statusClass = user.active ? 'status-active' : 'status-inactive';
+        const statusIcon = user.active ? 'fa-circle' : 'fa-circle';
+        const statusText = user.active ? 'Active' : 'Inactive';
+
+        // action buttons with icons and labels
+        const actionsHtml = `
+          <div class="actions">
+            <button class="action-btn credit" onclick="showCreditForm('${user.phone}')"><i class="fas fa-plus-circle"></i> Credit</button>
+            <button class="action-btn debit" onclick="showDebitForm('${user.phone}')"><i class="fas fa-minus-circle"></i> Debit</button>
+            <button class="action-btn toggle" onclick="toggleUserStatus('${user.phone}', ${user.active})">
+              <i class="fas ${user.active ? 'fa-user-slash' : 'fa-user-check'}"></i> ${user.active ? 'Deactivate' : 'Activate'}
+            </button>
+            <button class="action-btn pin" onclick="showChangePinForm('${user.phone}')"><i class="fas fa-key"></i> PIN</button>
+          </div>
+        `;
+
+        row.innerHTML = `
+          <td><span class="user-name">${escapeHtml(user.fullName)}</span></td>
+          <td>${escapeHtml(user.phone)}</td>
+          <td><span class="balance">₦${user.balance.toLocaleString()}</span></td>
+          <td><span class="status-badge ${statusClass}"><i class="fas ${statusIcon}"></i> ${statusText}</span></td>
+          <td>${actionsHtml}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    } catch (err) {
+      showAdminError('Failed to load users.');
+    }
+  }
+
+  // ─── action handlers ───
+  function showCreditForm(phone) {
+    const amount = prompt('Enter amount to credit:');
+    if (amount === null) return;
+    if (!amount || isNaN(amount) || Number(amount) <= 0) {
+      showAdminError('Please enter a valid positive number.');
       return;
     }
-    noUsers.classList.add('hidden');
-
-    users.forEach(user => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${escapeHtml(user.fullName)}</td>
-        <td>${escapeHtml(user.phone)}</td>
-        <td>₦${user.balance.toLocaleString()}</td>
-        <td style="color: ${user.active ? 'green' : 'red'}">${user.active ? 'Active' : 'Inactive'}</td>
-        <td class="actions">
-          <button onclick="showCreditForm('${user.phone}')">Credit</button>
-          <button onclick="showDebitForm('${user.phone}')">Debit</button>
-          <button onclick="toggleUserStatus('${user.phone}', ${user.active})">${user.active ? 'Deactivate' : 'Activate'}</button>
-          <button onclick="showChangePinForm('${user.phone}')">Change PIN</button>
-        </td>
-      `;
-      tbody.appendChild(row);
-    });
-  } catch (err) {
-    adminError.textContent = 'Failed to load users.';
+    creditUser(phone, amount);
   }
-}
 
-// ---------- Action Handlers ----------
-function showCreditForm(phone) {
-  const amount = prompt('Enter amount to credit:');
-  if (!amount) return;
-  creditUser(phone, amount);
-}
-
-async function creditUser(phone, amount) {
-  const res = await fetch(`${API_BASE}/admin/user/credit`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ phone, amount }),
-    credentials: 'include'
-  });
-  const data = await res.json();
-  if (res.ok) {
-    document.getElementById('adminMessage').textContent = data.message;
-    loadUsers();
-  } else {
-    document.getElementById('adminError').textContent = data.message;
+  async function creditUser(phone, amount) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/user/credit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, amount }),
+        credentials: 'include'
+      });
+      const data = await res.json();
+      if (res.ok) {
+        showAdminMessage(data.message || 'Credited successfully.');
+        loadUsers();
+      } else {
+        showAdminError(data.message || 'Credit failed.');
+      }
+    } catch (e) {
+      showAdminError('Network error.');
+    }
   }
-}
 
-function showDebitForm(phone) {
-  const amount = prompt('Enter amount to debit:');
-  if (!amount) return;
-  debitUser(phone, amount);
-}
-
-async function debitUser(phone, amount) {
-  const res = await fetch(`${API_BASE}/admin/user/debit`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ phone, amount }),
-    credentials: 'include'
-  });
-  const data = await res.json();
-  if (res.ok) {
-    document.getElementById('adminMessage').textContent = data.message;
-    loadUsers();
-  } else {
-    document.getElementById('adminError').textContent = data.message;
+  function showDebitForm(phone) {
+    const amount = prompt('Enter amount to debit:');
+    if (amount === null) return;
+    if (!amount || isNaN(amount) || Number(amount) <= 0) {
+      showAdminError('Please enter a valid positive number.');
+      return;
+    }
+    debitUser(phone, amount);
   }
-}
 
-async function toggleUserStatus(phone, currentActive) {
-  const action = currentActive ? 'deactivate' : 'activate';
-  if (!confirm(`Are you sure you want to ${action} this user?`)) return;
-  const endpoint = currentActive ? 'deactivate' : 'activate';
-  const res = await fetch(`${API_BASE}/admin/user/${endpoint}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ phone }),
-    credentials: 'include'
-  });
-  const data = await res.json();
-  if (res.ok) {
-    document.getElementById('adminMessage').textContent = data.message;
-    loadUsers();
-  } else {
-    document.getElementById('adminError').textContent = data.message;
+  async function debitUser(phone, amount) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/user/debit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, amount }),
+        credentials: 'include'
+      });
+      const data = await res.json();
+      if (res.ok) {
+        showAdminMessage(data.message || 'Debited successfully.');
+        loadUsers();
+      } else {
+        showAdminError(data.message || 'Debit failed.');
+      }
+    } catch (e) {
+      showAdminError('Network error.');
+    }
   }
-}
 
-function showChangePinForm(phone) {
-  const newPin = prompt('Enter new PIN (4 digits):');
-  if (!newPin || newPin.length < 4) {
-    alert('PIN must be at least 4 characters');
-    return;
+  async function toggleUserStatus(phone, currentActive) {
+    const action = currentActive ? 'deactivate' : 'activate';
+    if (!confirm(`Are you sure you want to ${action} this user?`)) return;
+
+    const endpoint = currentActive ? 'deactivate' : 'activate';
+    try {
+      const res = await fetch(`${API_BASE}/admin/user/${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone }),
+        credentials: 'include'
+      });
+      const data = await res.json();
+      if (res.ok) {
+        showAdminMessage(data.message || `User ${action}d.`);
+        loadUsers();
+      } else {
+        showAdminError(data.message || `Failed to ${action}.`);
+      }
+    } catch (e) {
+      showAdminError('Network error.');
+    }
   }
-  changePin(phone, newPin);
-}
 
-async function changePin(phone, newPin) {
-  const res = await fetch(`${API_BASE}/admin/user/changepin`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ phone, newPin }),
-    credentials: 'include'
-  });
-  const data = await res.json();
-  if (res.ok) {
-    document.getElementById('adminMessage').textContent = data.message;
-  } else {
-    document.getElementById('adminError').textContent = data.message;
+  function showChangePinForm(phone) {
+    const newPin = prompt('Enter new PIN (4+ digits):');
+    if (newPin === null) return;
+    if (!newPin || newPin.length < 4) {
+      showAdminError('PIN must be at least 4 characters.');
+      return;
+    }
+    changePin(phone, newPin);
   }
-}
 
-// helper escape
-function escapeHtml(text) {
-  const map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;'
-  };
-  return String(text).replace(/[&<>"']/g, m => map[m]);
-}
+  async function changePin(phone, newPin) {
+    try {
+      const res = await fetch(`${API_BASE}/admin/user/changepin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, newPin }),
+        credentials: 'include'
+      });
+      const data = await res.json();
+      if (res.ok) {
+        showAdminMessage(data.message || 'PIN changed.');
+      } else {
+        showAdminError(data.message || 'PIN change failed.');
+      }
+    } catch (e) {
+      showAdminError('Network error.');
+    }
+  }
+
+  // escape helper
+  function escapeHtml(text) {
+    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    return String(text).replace(/[&<>"']/g, m => map[m]);
+  }
 </script>
 </body>
 </html>
