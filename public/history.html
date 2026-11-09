@@ -3,120 +3,588 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transaction History</title>
+    <title>Transaction History | 9jacash</title>
+    <link rel="icon" type="image/jpeg" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8j90HzeSN5ZFtbO39u_6YAjx_cZL24W8_AaKjcBXh0m4qKafOZ1cDhEQ&s=10">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Background Image */
+        :root {
+            --primary: #8a2be2;
+            --primary-dark: #6a1cb0;
+            --accent: #00d4ff;
+            --gold: #ffd700;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --dark-bg: #0a0a1a;
+            --card-bg: rgba(22, 22, 38, 0.92);
+            --text-light: #ffffff;
+            --text-gray: #a8a8c8;
+            --border-radius: 18px;
+            --box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQy2x55fLFZuYEK5hxYPk2DFj06cIvjKPnJQkUPuGFHblxWxW8i1wEjIi4&s=10') no-repeat center center fixed;
-            background-size: cover;
-            text-align: center;
-            padding: 20px;
-            color: white;
-        }
-        /* Glassmorphism Container */
-        .container {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(15px);
-            padding: 20px;
-            width: 90%;
-            max-width: 350px;
-            margin: auto;
-            border-radius: 12px;
-            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at 15% 20%, #1e1b3a 0%, #0a0a1a 55%, #060610 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
             position: relative;
-            color: white;
+            overflow-x: hidden;
         }
-        /* Transactions Styling */
-        .transaction {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 8px;
-            color: white;
-            position: relative;
-        }
-        /* Credit & Debit Colors */
-        .credit { background: rgba(0, 255, 0, 0.3); } /* Green for Credit */
-        .debit { background: rgba(255, 0, 0, 0.3); }  /* Red for Debit */
-        /* Receipt Popup */
-        .receipt-popup {
+
+        /* Animated background orbs */
+        body::before,
+        body::after {
+            content: '';
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.85);
-            padding: 20px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.25;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body::before {
+            width: 450px;
+            height: 450px;
+            background: var(--primary);
+            top: -150px;
+            left: -120px;
+            animation: floatOrb 18s ease-in-out infinite alternate;
+        }
+
+        body::after {
+            width: 500px;
+            height: 500px;
+            background: var(--accent);
+            bottom: -200px;
+            right: -150px;
+            animation: floatOrb 22s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes floatOrb {
+            0%   { transform: translate(0, 0) scale(1); }
+            50%  { transform: translate(40px, -40px) scale(1.08); }
+            100% { transform: translate(-40px, 40px) scale(0.95); }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2.2rem 1.8rem;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+            color: var(--text-light);
+        }
+
+        .logo-image-wrapper {
+            width: 42px;
+            height: 42px;
             border-radius: 12px;
-            text-align: center;
-            color: white;
-            display: none;
-            width: 80%;
-            max-width: 350px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 6px 16px rgba(138, 43, 226, 0.35);
+            background: #1a1a2e;
         }
-        .receipt-popup button {
-            background: limegreen;
-            color: white;
-            font-size: 16px;
-            padding: 8px;
-            border: none;
-            border-radius: 5px;
+
+        .logo-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text span {
+            color: var(--gold);
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text-gray);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
         }
-        .receipt-popup button:hover {
-            background: darkgreen;
+
+        .back-btn:hover {
+            color: var(--accent);
+            background: rgba(0, 212, 255, 0.12);
+            border-color: var(--accent);
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 0.3rem;
+            background: linear-gradient(90deg, #ffffff, var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-gray);
+            font-size: 0.88rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Stats Summary Row */
+        .stats-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .stat-box {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-box.credit {
+            border-color: rgba(39, 174, 96, 0.3);
+            background: rgba(39, 174, 96, 0.05);
+        }
+
+        .stat-box.debit {
+            border-color: rgba(231, 76, 60, 0.3);
+            background: rgba(231, 76, 60, 0.05);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-gray);
+            margin-bottom: 0.4rem;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .credit .stat-value { color: var(--success); }
+        .debit .stat-value { color: #ff6b6b; }
+
+        /* Filter Buttons */
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.4rem;
+            border-radius: 12px;
+        }
+
+        .filter-btn {
+            flex: 1;
+            padding: 0.6rem;
+            border: none;
+            background: transparent;
+            color: var(--text-gray);
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(138, 43, 226, 0.3);
+        }
+
+        /* Transaction List */
+        .transaction-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* Custom Scrollbar */
+        .transaction-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .transaction-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .transaction-list::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .transaction-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            transition: var(--transition);
+        }
+
+        .transaction-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(138, 43, 226, 0.3);
+        }
+
+        .tx-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .tx-icon.credit {
+            background: rgba(39, 174, 96, 0.15);
+            color: var(--success);
+        }
+
+        .tx-icon.debit {
+            background: rgba(231, 76, 60, 0.15);
+            color: #ff6b6b;
+        }
+
+        .tx-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .tx-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 0.2rem;
+        }
+
+        .tx-date {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+        }
+
+        .tx-amount {
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .tx-amount.credit { color: var(--success); }
+        .tx-amount.debit { color: #ff6b6b; }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-gray);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+            color: var(--primary);
+        }
+
+        .empty-state p {
+            font-size: 0.95rem;
+        }
+
+        /* Loading Spinner */
+        .loading-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--accent);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(0, 212, 255, 0.2);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Support Line */
+        .support-line {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.8rem;
+            border-radius: 12px;
+            border: 1px dashed rgba(255, 215, 0, 0.25);
+        }
+
+        .support-line strong {
+            color: var(--gold);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            body { padding: 1rem 0.5rem; }
+            .container { padding: 1.8rem 1.2rem; }
+            h2 { font-size: 1.4rem; }
+            .stats-row { flex-direction: column; gap: 0.8rem; }
+            .tx-title { font-size: 0.9rem; }
+            .tx-amount { font-size: 0.9rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <a href="index.html" class="logo">
+                <div class="logo-image-wrapper">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8j90HzeSN5ZFtbO39u_6YAjx_cZL24W8_AaKjcBXh0m4qKafOZ1cDhEQ&s=10" alt="9jacash Logo">
+                </div>
+                <span class="logo-text">9ja<span>cash</span></span>
+            </a>
+            <a href="dashboard.html" class="back-btn" title="Back to Dashboard">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
+
         <h2>Transaction History</h2>
-        <div id="transactions">Loading...</div>
+        <p class="subtitle">Track all your deposits, transfers, and earnings.</p>
+
+        <!-- Stats Summary -->
+        <div class="stats-row">
+            <div class="stat-box credit">
+                <div class="stat-label">Total In</div>
+                <div class="stat-value" id="totalCredit">₦0</div>
+            </div>
+            <div class="stat-box debit">
+                <div class="stat-label">Total Out</div>
+                <div class="stat-value" id="totalDebit">₦0</div>
+            </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <button class="filter-btn active" onclick="filterTransactions('all', this)">All</button>
+            <button class="filter-btn" onclick="filterTransactions('credit', this)">Credits</button>
+            <button class="filter-btn" onclick="filterTransactions('debit', this)">Debits</button>
+        </div>
+
+        <!-- Transactions List Container -->
+        <div class="transaction-list" id="transactionList">
+            <!-- Loading State -->
+            <div class="loading-state" id="loadingState">
+                <div class="spinner"></div>
+                <p>Fetching your transactions...</p>
+            </div>
+        </div>
+
+        <div class="support-line">
+            📞 Customer Support / WhatsApp: <strong>+44 7448 774304</strong>
+        </div>
     </div>
-    <!-- Receipt Popup -->
-    <div class="receipt-popup" id="receiptPopup">
-        <p id="receiptContent"></p>
-        <button onclick="closeReceipt()">Close</button>
-    </div>
+
     <script>
-        function fetchHistory() {
-            fetch("/history")
-            .then(response => response.json())
-            .then(transactions => {
-                const historyDiv = document.getElementById("transactions");
-                historyDiv.innerHTML = transactions.length 
-                    ? transactions.map(tx => `
-                        <div class="transaction ${tx.type}">
-                            <p><strong>${tx.type.toUpperCase()}:</strong> ₦${tx.amount}</p>
-                            <p>To: ${tx.receiver} (${tx.account})</p>
-                            <p>Date: ${tx.date}</p>
-                            <button onclick="showReceipt(${JSON.stringify(tx).replace(/"/g, '&quot;')})">View Receipt</button>
+        // Global variable to store all fetched transactions
+        let allTransactions = [];
+
+        // Helper to format currency
+        const formatNaira = (amount) => {
+            return "₦" + Number(amount).toLocaleString(undefined, { minimumFractionDigits: 0 });
+        };
+
+        // 1. Fetch data from the server
+        async function fetchHistory() {
+            try {
+                const response = await fetch("/history", { credentials: "include" });
+                
+                if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) {
+                        // Not logged in or deactivated account
+                        window.location.href = "login.html";
+                        return;
+                    }
+                    throw new Error("Failed to fetch history");
+                }
+
+                const data = await response.json();
+                allTransactions = data.transactions || [];
+
+                calculateTotals(allTransactions);
+                renderTransactions(allTransactions);
+
+            } catch (error) {
+                console.error("History fetch error:", error);
+                document.getElementById("transactionList").innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle" style="color: #e74c3c;"></i>
+                        <p>Error loading transactions. Please refresh the page.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // 2. Calculate total credits and debits
+        function calculateTotals(transactions) {
+            let totalCredit = 0;
+            let totalDebit = 0;
+
+            transactions.forEach(tx => {
+                if (tx.type === "credit") {
+                    totalCredit += Number(tx.amount);
+                } else if (tx.type === "debit") {
+                    totalDebit += Number(tx.amount);
+                }
+            });
+
+            document.getElementById("totalCredit").textContent = formatNaira(totalCredit);
+            document.getElementById("totalDebit").textContent = formatNaira(totalDebit);
+        }
+
+        // 3. Render the list of transactions
+        function renderTransactions(transactions) {
+            const container = document.getElementById("transactionList");
+            
+            if (!transactions || transactions.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-receipt"></i>
+                        <p>No transactions found yet.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Sort transactions by date (newest first)
+            const sorted = [...transactions].sort((a, b) => {
+                return new Date(b.timestamp) - new Date(a.timestamp);
+            });
+
+            let html = "";
+
+            sorted.forEach(tx => {
+                const isCredit = tx.type === "credit";
+                const iconClass = isCredit ? "fa-arrow-down" : "fa-arrow-up";
+                const typeClass = isCredit ? "credit" : "debit";
+                const sign = isCredit ? "+" : "-";
+                
+                // Determine display title
+                let title = tx.receiver || "Transaction";
+                if (tx.receiver === "Registration Bonus") title = "Welcome Bonus 🎉";
+                if (tx.receiver === "Referral Reward" || tx.receiver === "Referral Bonus") title = "Referral Bonus 🎁";
+                if (tx.receiver === "Admin Credit") title = "Admin Deposit";
+                
+                // Format date nicely
+                const dateStr = tx.date || new Date(tx.timestamp).toLocaleString();
+
+                html += `
+                    <div class="transaction-item">
+                        <div class="tx-icon ${typeClass}">
+                            <i class="fas ${iconClass}"></i>
                         </div>
-                    `).join("")
-                    : "<p>No transactions yet.</p>";
-            })
-            .catch(error => console.error("Error:", error));
+                        <div class="tx-details">
+                            <div class="tx-title">${title}</div>
+                            <div class="tx-date">${dateStr}</div>
+                        </div>
+                        <div class="tx-amount ${typeClass}">
+                            ${sign}${formatNaira(tx.amount)}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
         }
-        function showReceipt(transaction) {
-            const receiptPopup = document.getElementById("receiptPopup");
-            const receiptContent = document.getElementById("receiptContent");
-            receiptContent.innerHTML = `
-                <h3>Transaction Receipt</h3>
-                <p><strong>Type:</strong> ${transaction.type.toUpperCase()}</p>
-                <p><strong>Amount:</strong> ₦${transaction.amount}</p>
-                <p><strong>To:</strong> ${transaction.receiver} (${transaction.account})</p>
-                <p><strong>Date:</strong> ${transaction.date}</p>
-                <p><strong>Transaction ID:</strong> ${generateTransactionId()}</p>
-            `;
-            receiptPopup.style.display = "block";
+
+        // 4. Filter function triggered by tabs
+        function filterTransactions(type, btnElement) {
+            // Update active tab styling
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            // Filter logic
+            if (type === 'all') {
+                renderTransactions(allTransactions);
+            } else {
+                const filtered = allTransactions.filter(tx => tx.type === type);
+                renderTransactions(filtered);
+            }
         }
-        function closeReceipt() {
-            document.getElementById("receiptPopup").style.display = "none";
-        }
-        function generateTransactionId() {
-            return "TXN" + Math.floor(Math.random() * 1000000);
-        }
-        fetchHistory();
+
+        // Run on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            fetchHistory();
+        });
     </script>
 </body>
 </html>
