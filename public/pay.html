@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Payment | 9jacash</title>
+    <link rel="icon" type="image/jpeg" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8j90HzeSN5ZFtbO39u_6YAjx_cZL24W8_AaKjcBXh0m4qKafOZ1cDhEQ&s=10">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #8a2be2;
+            --primary-dark: #6a1cb0;
+            --accent: #00d4ff;
+            --gold: #ffd700;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --dark-bg: #0a0a1a;
+            --card-bg: rgba(22, 22, 38, 0.95);
+            --text-light: #ffffff;
+            --text-gray: #a8a8c8;
+            --border-radius: 20px;
+            --box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            --transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at 10% 20%, #1c1835 0%, #080812 60%, #030308 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background orbs */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.25;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body::before {
+            width: 450px;
+            height: 450px;
+            background: var(--primary);
+            top: -150px;
+            left: -120px;
+            animation: floatOrb 18s ease-in-out infinite alternate;
+        }
+
+        body::after {
+            width: 500px;
+            height: 500px;
+            background: var(--accent);
+            bottom: -200px;
+            right: -150px;
+            animation: floatOrb 22s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes floatOrb {
+            0%   { transform: translate(0, 0) scale(1); }
+            50%  { transform: translate(40px, -40px) scale(1.08); }
+            100% { transform: translate(-40px, 40px) scale(0.95); }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow), 0 0 0 1px rgba(138, 43, 226, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2.5rem 2rem;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(25px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ============ HEADER ============ */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-image-wrapper {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 6px 16px rgba(138, 43, 226, 0.4);
+            background: #1a1a2e;
+        }
+
+        .logo-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text span {
+            color: var(--gold);
+        }
+
+        .header i.main-icon {
+            font-size: 2.8rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.4));
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #ffffff, var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.4rem;
+            letter-spacing: -0.5px;
+        }
+
+        p.subtitle {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* ============ 1. INPUT SECTION ============ */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 1.1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .input-with-icon input {
+            width: 100%;
+            padding: 1.1rem 1rem 1.1rem 2.8rem;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .input-with-icon input:focus {
+            border-color: var(--primary);
+            background: rgba(138, 43, 226, 0.08);
+            box-shadow: 0 0 0 4px rgba(138, 43, 226, 0.15);
+        }
+
+        .input-with-icon input::placeholder {
+            color: rgba(168, 168, 200, 0.5);
+            letter-spacing: 1px;
+            font-weight: 400;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1.1rem;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            font-weight: 700;
+            font-size: 1.05rem;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.6rem;
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.4);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(138, 43, 226, 0.55);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ============ 2. LOADING SECTION ============ */
+        .loading-section {
+            display: none;
+            text-align: center;
+            padding: 2rem 0;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .loading-section.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(0, 212, 255, 0.15);
+            border-top: 5px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.2);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-section p {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .loading-section span.sub-load {
+            display: block;
+            color: var(--text-gray);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            font-weight: 400;
+        }
+
+        /* ============ 3. PAYMENT DETAILS SECTION ============ */
+        .payment-section {
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .payment-section.active {
+            display: block;
+        }
+
+        .user-welcome {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.15), rgba(0, 212, 255, 0.08));
+            border-radius: 14px;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .user-welcome h3 {
+            font-size: 1.1rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .amount-box {
+            text-align: center;
+            margin-bottom: 1.8rem;
+            padding: 1.5rem;
+            background: rgba(39, 174, 96, 0.08);
+            border-radius: 16px;
+            border: 1px dashed rgba(39, 174, 96, 0.4);
+        }
+
+        .amount-box .label {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .amount-box .value {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--success);
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+
+        .bank-details {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 1.4rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .bank-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .bank-row:last-child {
+            margin-bottom: 0;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .bank-label {
+            color: var(--text-gray);
+            font-size: 0.85rem;
+        }
+
+        .bank-value {
+            font-weight: 700;
+            color: var(--text-light);
+            text-align: right;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .bank-value.highlight {
+            color: var(--gold);
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .instruction {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 1rem;
+            border-radius: 12px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .instruction em {
+            color: var(--danger);
+            font-style: normal;
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+            font-size: 1rem;
+        }
+
+        .btn-whatsapp:hover {
+            box-shadow: 0 15px 35px rgba(37, 211, 102, 0.55);
+        }
+
+        /* ============ ERROR MESSAGE ============ */
+        .error-msg {
+            display: none;
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.88rem;
+            background: rgba(231, 76, 60, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
+        }
+
+        .support-line {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.8rem;
+            border-radius: 12px;
+            border: 1px dashed rgba(255, 215, 0, 0.2);
+        }
+
+        .support-line strong {
+            color: var(--gold);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            body { padding: 1rem 0.8rem; }
+            .container { padding: 2rem 1.4rem; }
+            h2 { font-size: 1.4rem; }
+            .amount-box .value { font-size: 2.2rem; }
+            .bank-value { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ============ INPUT SECTION ============ -->
+        <div id="inputSection">
+            <div class="header">
+                <div class="header-logo">
+                    <div class="logo-image-wrapper">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8j90HzeSN5ZFtbO39u_6YAjx_cZL24W8_AaKjcBXh0m4qKafOZ1cDhEQ&s=10" alt="9jacash Logo">
+                    </div>
+                    <span class="logo-text">9ja<span>cash</span></span>
+                </div>
+                <i class="fas fa-file-invoice-dollar main-icon"></i>
+                <h2>Complete Payment</h2>
+                <p class="subtitle">Enter the payment code sent to you by the Admin to proceed.</p>
+            </div>
+
+            <div class="input-group">
+                <label>Payment Code</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-key"></i>
+                    <input type="text" id="payCodeInput" placeholder="e.g. PAY-XXXXXX" maxlength="10" autocomplete="off">
+                </div>
+            </div>
+
+            <button class="btn" onclick="verifyCode()">
+                <i class="fas fa-search"></i> Verify Code
+            </button>
+
+            <div class="error-msg" id="errorMsg"></div>
+
+            <div class="support-line">
+                📞 Customer Support / WhatsApp: <strong>+44 7448 774304</strong>
+            </div>
+        </div>
+
+        <!-- ============ LOADING SECTION ============ -->
+        <div class="loading-section" id="loadingSection">
+            <div class="spinner"></div>
+            <p>Verifying your code...</p>
+            <span class="sub-load">Generating secure account details, please wait.</span>
+        </div>
+
+        <!-- ============ PAYMENT DETAILS SECTION ============ -->
+        <div class="payment-section" id="paymentSection">
+            <div class="header" style="margin-bottom: 1.2rem;">
+                <div class="header-logo" style="margin-bottom: 0.8rem;">
+                    <div class="logo-image-wrapper">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8j90HzeSN5ZFtbO39u_6YAjx_cZL24W8_AaKjcBXh0m4qKafOZ1cDhEQ&s=10" alt="9jacash Logo">
+                    </div>
+                    <span class="logo-text">9ja<span>cash</span></span>
+                </div>
+            </div>
+
+            <div class="user-welcome">
+                <h3>Hello, <span id="displayUsername"></span> 👋</h3>
+            </div>
+
+            <div class="amount-box">
+                <div class="label">Amount to Pay</div>
+                <div class="value" id="displayAmount">₦0</div>
+            </div>
+
+            <div class="bank-details">
+                <div class="bank-row">
+                    <span class="bank-label">Bank</span>
+                    <span class="bank-value" id="displayBank"></span>
+                </div>
+                <div class="bank-row">
+                    <span class="bank-label">Account Number</span>
+                    <span class="bank-value highlight" id="displayAccountNumber"></span>
+                </div>
+                <div class="bank-row">
+                    <span class="bank-label">Account Name</span>
+                    <span class="bank-value" id="displayAccountName"></span>
+                </div>
+            </div>
+
+            <p class="instruction">
+                Please transfer the exact amount above to the generated bank account. 
+                Once you have paid, click the button below to confirm your payment via WhatsApp.
+                <em>(Note: This payment code will expire immediately after confirmation).</em>
+            </p>
+
+            <button class="btn btn-whatsapp" onclick="confirmPayment()">
+                <i class="fab fa-whatsapp"></i> I Have Paid
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ IMPORTANT: If you host pay.html on a different domain (like Netlify), 
+        // replace "" with your live server URL (e.g., "https://your-app.onrender.com")
+        const SERVER_URL = ""; 
+        const ADMIN_WHATSAPP = "447448774304"; // Your WhatsApp number
+
+        let currentPayCode = null;
+        let currentData = null;
+
+        async function verifyCode() {
+            const codeInput = document.getElementById("payCodeInput").value.trim().toUpperCase();
+            const errorMsg = document.getElementById("errorMsg");
+
+            if (!codeInput) {
+                errorMsg.textContent = "Please enter a payment code.";
+                errorMsg.style.display = "block";
+                return;
+            }
+
+            // Reset UI
+            errorMsg.style.display = "none";
+            document.getElementById("inputSection").style.display = "none";
+            document.getElementById("loadingSection").classList.add("active");
+
+            try {
+                const response = await fetch(`${SERVER_URL}/pay/verify/${codeInput}`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || "Invalid or expired payment code.");
+                }
+
+                currentPayCode = codeInput;
+                currentData = data;
+
+                // 5-second dramatic delay to simulate generation
+                setTimeout(() => {
+                    document.getElementById("loadingSection").classList.remove("active");
+                    document.getElementById("paymentSection").classList.add("active");
+
+                    document.getElementById("displayUsername").textContent = currentData.username;
+                    document.getElementById("displayAmount").textContent = "₦" + Number(currentData.amount).toLocaleString();
+                    document.getElementById("displayBank").textContent = currentData.bankName;
+                    document.getElementById("displayAccountNumber").textContent = currentData.accountNumber;
+                    document.getElementById("displayAccountName").textContent = currentData.accountName;
+                }, 5000);
+
+            } catch (error) {
+                document.getElementById("loadingSection").classList.remove("active");
+                document.getElementById("inputSection").style.display = "block";
+                
+                errorMsg.textContent = error.message;
+                errorMsg.style.display = "block";
+                
+                // Shake effect on error
+                errorMsg.style.animation = "none";
+                setTimeout(() => { errorMsg.style.animation = "shake 0.4s ease"; }, 10);
+            }
+        }
+
+        async function confirmPayment() {
+            if (!currentData || !currentPayCode) return;
+
+            const btn = event.target.closest('button');
+            const originalBtn = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+
+            // 1. Mark the code as "used" on the server
+            try {
+                await fetch(`${SERVER_URL}/pay/complete`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ code: currentPayCode })
+                });
+            } catch (e) {
+                console.error("Could not mark code as used:", e);
+            }
+
+            // 2. Construct the WhatsApp message with all details
+            const message = `Hello 9jacash Admin,\n\nI have completed my payment. Please confirm my transaction and send my coupon.\n\n*Payment Details:*\nCode: ${currentPayCode}\nUsername: ${currentData.username}\nAmount: ₦${Number(currentData.amount).toLocaleString()}\nBank: ${currentData.bankName}\nAccount Number: ${currentData.accountNumber}\nAccount Name: ${currentData.accountName}\n\nThank you!`;
+
+            // 3. Open WhatsApp
+            const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, "_blank");
+
+            // 4. Show final confirmation state
+            document.getElementById("paymentSection").innerHTML = `
+                <div style="text-align: center; padding: 3rem 1rem; animation: fadeIn 0.6s ease;">
+                    <i class="fas fa-check-circle" style="font-size: 4.5rem; color: var(--success); margin-bottom: 1.5rem; filter: drop-shadow(0 0 20px rgba(39, 174, 96, 0.4));"></i>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 0.8rem; color: var(--text-light);">Payment Confirmed!</h3>
+                    <p style="color: var(--text-gray); font-size: 0.95rem; line-height: 1.6; max-width: 350px; margin: 0 auto;">
+                        Your WhatsApp chat has been opened. The Admin will verify your payment and send your coupon shortly.<br><br>
+                        <strong style="color: var(--danger); display: block; padding: 0.8rem; background: rgba(231, 76, 60, 0.1); border-radius: 10px; border: 1px solid rgba(231, 76, 60, 0.2);">
+                            ⚠️ This payment code has now expired.
+                        </strong>
+                    </p>
+                    <div style="margin-top: 2rem; font-size: 0.8rem; color: var(--text-gray); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem;">
+                        📞 Customer Support: <strong style="color: var(--gold);">+44 7448 774304</strong>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
