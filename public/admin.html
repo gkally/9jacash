@@ -1,761 +1,832 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel · Banking System</title>
-  <!-- Google Font & Icon Library -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | 9jacash</title>
+    <link rel="icon" type="image/jpeg" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8j90HzeSN5ZFtbO39u_6YAjx_cZL24W8_AaKjcBXh0m4qKafOZ1cDhEQ&s=10">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #8a2be2;
+            --primary-dark: #6a1cb0;
+            --accent: #00d4ff;
+            --gold: #ffd700;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --dark-bg: #0a0a1a;
+            --card-bg: rgba(22, 22, 38, 0.95);
+            --text-light: #ffffff;
+            --text-gray: #a8a8c8;
+            --border-radius: 18px;
+            --box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f0f3f8;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      color: #1e293b;
-      line-height: 1.5;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container {
-      max-width: 1200px;
-      width: 100%;
-      background: #ffffff;
-      border-radius: 28px;
-      box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.15), 0 10px 15px -6px rgba(0, 0, 0, 0.05);
-      padding: 36px 40px;
-      transition: all 0.2s ease;
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at 15% 20%, #1e1b3a 0%, #0a0a1a 55%, #060610 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-    /* ----- LOGIN SECTION (clean, centered card) ----- */
-    #loginSection {
-      max-width: 400px;
-      margin: 0 auto;
-      text-align: center;
-      padding: 16px 0;
-    }
+        /* Animated background orbs */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.25;
+            z-index: 0;
+            pointer-events: none;
+        }
 
-    #loginSection h2 {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: #0b1e33;
-      margin-bottom: 8px;
-    }
+        body::before {
+            width: 450px;
+            height: 450px;
+            background: var(--primary);
+            top: -150px;
+            left: -120px;
+            animation: floatOrb 18s ease-in-out infinite alternate;
+        }
 
-    #loginSection h2 i {
-      color: #2563eb;
-      margin-right: 8px;
-    }
+        body::after {
+            width: 500px;
+            height: 500px;
+            background: var(--accent);
+            bottom: -200px;
+            right: -150px;
+            animation: floatOrb 22s ease-in-out infinite alternate-reverse;
+        }
 
-    .login-sub {
-      color: #64748b;
-      margin-bottom: 32px;
-      font-size: 0.95rem;
-    }
+        @keyframes floatOrb {
+            0%   { transform: translate(0, 0) scale(1); }
+            50%  { transform: translate(40px, -40px) scale(1.08); }
+            100% { transform: translate(-40px, 40px) scale(0.95); }
+        }
 
-    .input-group {
-      text-align: left;
-      margin-bottom: 24px;
-    }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
 
-    .input-group label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      color: #334155;
-      margin-bottom: 8px;
-    }
+        /* ============ LOGIN SCREEN ============ */
+        #loginScreen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
 
-    .input-group input {
-      width: 100%;
-      padding: 14px 16px;
-      font-size: 1rem;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 16px;
-      background: #f8fafc;
-      transition: 0.2s;
-      font-family: 'Inter', sans-serif;
-    }
+        .login-card {
+            background: var(--card-bg);
+            padding: 3rem 2.5rem;
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--box-shadow);
+            backdrop-filter: blur(20px);
+            animation: fadeIn 0.6s ease-out;
+        }
 
-    .input-group input:focus {
-      outline: none;
-      border-color: #2563eb;
-      background: #ffffff;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-    }
+        .login-card i {
+            font-size: 3.5rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
+        }
 
-    .login-btn {
-      width: 100%;
-      padding: 14px;
-      background: #1e293b;
-      color: white;
-      border: none;
-      border-radius: 16px;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      letter-spacing: 0.3px;
-    }
+        .login-card h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #fff, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    .login-btn i {
-      font-size: 1.1rem;
-    }
+        .login-card p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
 
-    .login-btn:hover {
-      background: #0f172a;
-      transform: scale(0.98);
-    }
+        .login-card input {
+            width: 100%;
+            padding: 1.1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            color: white;
+            margin-bottom: 1.2rem;
+            text-align: center;
+            letter-spacing: 8px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
 
-    .login-btn:active {
-      transform: scale(0.96);
-    }
+        .login-card input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+        }
 
-    .error {
-      color: #dc2626;
-      background: #fee2e2;
-      padding: 12px 16px;
-      border-radius: 14px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      margin-bottom: 16px;
-      text-align: left;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+        .btn {
+            padding: 1rem;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.35);
+        }
 
-    .error i {
-      font-size: 1.1rem;
-    }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(138, 43, 226, 0.5);
+        }
 
-    /* ----- ADMIN PANEL ----- */
-    #adminPanel {
-      width: 100%;
-    }
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
 
-    .admin-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 32px;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
+        /* ============ DASHBOARD SCREEN ============ */
+        #dashboardScreen {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
 
-    .admin-header h2 {
-      font-size: 1.9rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: #0b1e33;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    .admin-header h2 i {
-      color: #2563eb;
-      font-size: 2rem;
-    }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1.2rem 1.5rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: var(--box-shadow);
+        }
 
-    .logout-btn {
-      background: transparent;
-      border: 1.5px solid #e2e8f0;
-      color: #1e293b;
-      padding: 10px 22px;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: white;
-    }
+        .header h1 {
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
 
-    .logout-btn:hover {
-      background: #f1f5f9;
-      border-color: #94a3b8;
-    }
+        .header h1 i {
+            color: var(--gold);
+        }
 
-    .logout-btn i {
-      font-size: 1rem;
-    }
+        .header h1 span {
+            color: var(--gold);
+        }
 
-    /* message banners */
-    .message-banner {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 20px;
-      border-radius: 16px;
-      margin-bottom: 18px;
-      font-weight: 500;
-      font-size: 0.95rem;
-    }
+        .logout-btn {
+            background: rgba(231, 76, 60, 0.15);
+            color: #ff6b6b;
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
 
-    .success {
-      background: #e4f5ea;
-      color: #0b6b3a;
-      border-left: 5px solid #10b981;
-    }
+        .logout-btn:hover {
+            background: rgba(231, 76, 60, 0.25);
+            transform: translateY(-1px);
+        }
 
-    .success i {
-      color: #10b981;
-    }
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background: var(--card-bg);
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
 
-    .error-banner {
-      background: #fee2e2;
-      color: #991b1b;
-      border-left: 5px solid #ef4444;
-    }
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0.8rem;
+            border-radius: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
 
-    .error-banner i {
-      color: #ef4444;
-    }
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+        }
 
-    /* table card */
-    .users-card {
-      background: #ffffff;
-      border-radius: 24px;
-      border: 1px solid #f1f5f9;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-    }
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 6px 16px rgba(138, 43, 226, 0.4);
+        }
 
-    .table-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 24px;
-      background: #fafcff;
-      border-bottom: 1px solid #edf2f7;
-    }
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: var(--box-shadow);
+            backdrop-filter: blur(15px);
+        }
 
-    .table-header h3 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #0f172a;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
 
-    .table-header h3 i {
-      color: #2563eb;
-      font-size: 1.2rem;
-    }
+        /* ============ USERS TABLE ============ */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
 
-    .badge-count {
-      background: #e2e8f0;
-      color: #1e293b;
-      padding: 4px 12px;
-      border-radius: 40px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.95rem;
-    }
+        th, td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.9rem;
+        }
 
-    th {
-      text-align: left;
-      padding: 16px 24px;
-      background: #ffffff;
-      color: #475569;
-      font-weight: 600;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      border-bottom: 1px solid #e9eef3;
-    }
+        th {
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            background: rgba(0, 212, 255, 0.05);
+        }
 
-    td {
-      padding: 16px 24px;
-      border-bottom: 1px solid #f1f5f9;
-      vertical-align: middle;
-      color: #1e293b;
-      font-weight: 500;
-    }
+        tr:last-child td {
+            border-bottom: none;
+        }
 
-    tr:last-child td {
-      border-bottom: none;
-    }
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
 
-    tr:hover td {
-      background: #fafbff;
-    }
+        .action-btn {
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.75rem;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
+        }
 
-    .user-name {
-      font-weight: 600;
-      color: #0b1e33;
-    }
+        .action-btn:hover {
+            transform: translateY(-1px);
+        }
 
-    .balance {
-      font-weight: 700;
-      color: #0b6b3a;
-      font-family: 'Inter', monospace;
-      letter-spacing: -0.01em;
-    }
+        .btn-credit { background: rgba(39, 174, 96, 0.2); color: #4caf50; }
+        .btn-credit:hover { background: rgba(39, 174, 96, 0.35); }
+        .btn-debit { background: rgba(231, 76, 60, 0.2); color: #ff6b6b; }
+        .btn-debit:hover { background: rgba(231, 76, 60, 0.35); }
+        .btn-activate { background: rgba(0, 212, 255, 0.15); color: var(--accent); }
+        .btn-activate:hover { background: rgba(0, 212, 255, 0.3); }
+        .btn-deactivate { background: rgba(255, 215, 0, 0.15); color: var(--gold); }
+        .btn-deactivate:hover { background: rgba(255, 215, 0, 0.3); }
+        .btn-pin { background: rgba(138, 43, 226, 0.2); color: #b57cff; }
+        .btn-pin:hover { background: rgba(138, 43, 226, 0.4); }
 
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
-      border-radius: 40px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      width: fit-content;
-    }
+        .status-badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .status-active { background: rgba(39, 174, 96, 0.15); color: #4caf50; }
+        .status-inactive { background: rgba(231, 76, 60, 0.15); color: #ff6b6b; }
 
-    .status-active {
-      background: #e4f5ea;
-      color: #0b6b3a;
-    }
+        /* ============ PAYCODE FORM ============ */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
 
-    .status-active i {
-      font-size: 0.7rem;
-      color: #10b981;
-    }
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
 
-    .status-inactive {
-      background: #fee2e2;
-      color: #991b1b;
-    }
+        .form-group input {
+            width: 100%;
+            padding: 0.9rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
 
-    .status-inactive i {
-      font-size: 0.7rem;
-      color: #ef4444;
-    }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+        }
 
-    /* action buttons – clean icon buttons */
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
+        .form-group input::placeholder {
+            color: rgba(168, 168, 200, 0.5);
+        }
 
-    .action-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 7px 12px;
-      border-radius: 40px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      border: 1px solid #e2e8f0;
-      background: white;
-      color: #1e293b;
-      cursor: pointer;
-      transition: all 0.15s;
-      white-space: nowrap;
-      line-height: 1;
-    }
+        .result-box {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.8rem;
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(0, 212, 255, 0.05));
+            border: 1px solid rgba(39, 174, 96, 0.3);
+            border-radius: 14px;
+            text-align: center;
+            animation: fadeIn 0.4s ease-out;
+        }
 
-    .action-btn i {
-      font-size: 0.8rem;
-    }
+        .result-box.active {
+            display: block;
+        }
 
-    .action-btn.credit:hover {
-      background: #e4f5ea;
-      border-color: #10b981;
-      color: #0b6b3a;
-    }
+        .result-box h3 {
+            color: var(--success);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
 
-    .action-btn.debit:hover {
-      background: #fee2e2;
-      border-color: #ef4444;
-      color: #991b1b;
-    }
+        .result-box p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
 
-    .action-btn.toggle:hover {
-      background: #f1f5f9;
-      border-color: #94a3b8;
-    }
+        .code-display {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            background: #000;
+            color: var(--gold);
+            padding: 1rem;
+            border-radius: 12px;
+            user-select: all;
+            border: 1px dashed rgba(255, 215, 0, 0.4);
+            cursor: pointer;
+            transition: var(--transition);
+        }
 
-    .action-btn.pin:hover {
-      background: #eff6ff;
-      border-color: #2563eb;
-      color: #1e4fd9;
-    }
+        .code-display:hover {
+            background: #111;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
 
-    /* empty state */
-    .empty-state {
-      padding: 48px 24px;
-      text-align: center;
-      color: #94a3b8;
-      font-size: 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
+        .copy-hint {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            margin-top: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+        }
 
-    .empty-state i {
-      font-size: 3rem;
-      color: #cbd5e1;
-    }
-
-    /* utility */
-    .hidden {
-      display: none !important;
-    }
-
-    /* responsive */
-    @media (max-width: 700px) {
-      .container {
-        padding: 24px 16px;
-      }
-      .admin-header h2 {
-        font-size: 1.5rem;
-      }
-      th, td {
-        padding: 12px 14px;
-      }
-      .actions {
-        flex-direction: column;
-      }
-    }
-  </style>
+        /* Responsive */
+        @media (max-width: 700px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .header { flex-direction: column; gap: 1rem; text-align: center; }
+            .tabs { flex-direction: column; }
+            .tab-btn { justify-content: flex-start; padding: 1rem; }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-  <!-- LOGIN SECTION -->
-  <div id="loginSection">
-    <h2><i class="fas fa-shield-haltered"></i> Admin</h2>
-    <p class="login-sub">Enter your access PIN to continue</p>
-    <div id="loginError" class="error hidden"><i class="fas fa-exclamation-circle"></i> <span></span></div>
-    <form id="loginForm">
-      <div class="input-group">
-        <label for="adminPin"><i class="fas fa-lock" style="margin-right: 6px;"></i> Access PIN</label>
-        <input type="password" id="adminPin" placeholder="••••••••" required autocomplete="off">
-      </div>
-      <button type="submit" class="login-btn">
-        <i class="fas fa-arrow-right-to-bracket"></i> Sign in
-      </button>
-    </form>
-  </div>
+    <div class="container">
+        <!-- 1. LOGIN SCREEN -->
+        <div id="loginScreen">
+            <div class="login-card">
+                <i class="fas fa-user-shield"></i>
+                <h2>Admin Access</h2>
+                <p>Enter your 6-digit PIN to access the admin panel.</p>
+                <input type="password" id="adminPin" placeholder="••••••" maxlength="6" inputmode="numeric">
+                <button class="btn" id="loginBtn" onclick="loginAdmin()">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <p id="loginError" style="color: #ff6b6b; margin-top: 1rem; display: none; font-size: 0.85rem;"></p>
+            </div>
+        </div>
 
-  <!-- ADMIN DASHBOARD -->
-  <div id="adminPanel" class="hidden">
-    <div class="admin-header">
-      <h2><i class="fas fa-chart-pie"></i> Dashboard</h2>
-      <button class="logout-btn" onclick="adminLogout()">
-        <i class="fas fa-sign-out-alt"></i> Logout
-      </button>
+        <!-- 2. DASHBOARD SCREEN -->
+        <div id="dashboardScreen">
+            <div class="header">
+                <h1><i class="fas fa-crown"></i> 9ja<span>cash</span> Admin</h1>
+                <button class="logout-btn" onclick="logoutAdmin()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('usersTab', this)">
+                    <i class="fas fa-users"></i> Manage Users
+                </button>
+                <button class="tab-btn" onclick="switchTab('paycodeTab', this)">
+                    <i class="fas fa-ticket-alt"></i> Pay Code Generator
+                </button>
+            </div>
+
+            <!-- TAB 1: Users Management -->
+            <div id="usersTab" class="tab-content active">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersList">
+                            <tr><td colspan="5" style="text-align: center; padding: 2rem;">Loading users...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 2: Pay Code Generator -->
+            <div id="paycodeTab" class="tab-content">
+                <h2 style="margin-bottom: 1.5rem; font-size: 1.3rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-magic" style="color: var(--gold);"></i> Generate Payment Code
+                </h2>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="pc_username" placeholder="User's full name">
+                    </div>
+                    <div class="form-group">
+                        <label>Amount (₦)</label>
+                        <input type="number" id="pc_amount" placeholder="e.g. 10000">
+                    </div>
+                    <div class="form-group">
+                        <label>Receiver Account Number</label>
+                        <input type="text" id="pc_accountNumber" placeholder="10-digit account number">
+                    </div>
+                    <div class="form-group">
+                        <label>Receiver Account Name</label>
+                        <input type="text" id="pc_accountName" placeholder="e.g. RUFUS GABRIEL">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Bank Name</label>
+                        <input type="text" id="pc_bankName" placeholder="e.g. OPay, GTBank, PalmPay">
+                    </div>
+                </div>
+
+                <button class="btn" onclick="generatePayCode()">
+                    <i class="fas fa-bolt"></i> Generate Code
+                </button>
+                
+                <div class="result-box" id="pc_resultBox">
+                    <h3><i class="fas fa-check-circle"></i> Code Generated!</h3>
+                    <p>Send this code to the user so they can complete their payment.</p>
+                    <div class="code-display" id="pc_displayCode" onclick="copyCode()">------</div>
+                    <div class="copy-hint"><i class="fas fa-copy"></i> Click the code to copy</div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- message banners -->
-    <div id="adminMessage" class="message-banner success hidden"><i class="fas fa-check-circle"></i> <span></span></div>
-    <div id="adminError" class="message-banner error-banner hidden"><i class="fas fa-exclamation-circle"></i> <span></span></div>
+    <script>
+        // ⚠️ IMPORTANT: If you host admin.html on Netlify, change this to your live server URL (e.g. "https://your-app.onrender.com")
+        const SERVER_URL = ""; 
 
-    <!-- users table card -->
-    <div class="users-card">
-      <div class="table-header">
-        <h3><i class="fas fa-users"></i> All Users</h3>
-        <span class="badge-count" id="userCount">0</span>
-      </div>
-      <table id="usersTable">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Balance</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <div id="noUsers" class="empty-state hidden">
-        <i class="fas fa-user-slash"></i>
-        <span>No users registered yet</span>
-      </div>
-    </div>
-  </div>
-</div>
+        /* ============================================================
+           1. ADMIN LOGIN
+           ============================================================ */
+        async function loginAdmin() {
+            const pin = document.getElementById("adminPin").value.trim();
+            const errorEl = document.getElementById("loginError");
+            const loginBtn = document.getElementById("loginBtn");
+            
+            if (!pin) return;
 
-<script>
-  const API_BASE = '';
-  // ─── helpers ───
-  const loginErrorDiv = document.getElementById('loginError');
-  const loginErrorSpan = loginErrorDiv.querySelector('span');
-  const adminMessageDiv = document.getElementById('adminMessage');
-  const adminMessageSpan = adminMessageDiv.querySelector('span');
-  const adminErrorDiv = document.getElementById('adminError');
-  const adminErrorSpan = adminErrorDiv.querySelector('span');
+            const originalBtn = loginBtn.innerHTML;
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+            loginBtn.disabled = true;
+            errorEl.style.display = "none";
 
-  function hideMessages() {
-    adminMessageDiv.classList.add('hidden');
-    adminErrorDiv.classList.add('hidden');
-    loginErrorDiv.classList.add('hidden');
-  }
+            try {
+                const res = await fetch(`${SERVER_URL}/admin/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ pin }),
+                    credentials: "include"
+                });
 
-  function showLoginError(msg) {
-    loginErrorSpan.textContent = msg;
-    loginErrorDiv.classList.remove('hidden');
-  }
+                if (res.ok) {
+                    document.getElementById("loginScreen").style.display = "none";
+                    document.getElementById("dashboardScreen").style.display = "block";
+                    loadUsers();
+                } else {
+                    const data = await res.json();
+                    errorEl.textContent = data.message || "Invalid Admin PIN";
+                    errorEl.style.display = "block";
+                }
+            } catch (e) {
+                errorEl.textContent = "Network error. Please check your connection.";
+                errorEl.style.display = "block";
+            } finally {
+                loginBtn.innerHTML = originalBtn;
+                loginBtn.disabled = false;
+            }
+        }
 
-  function showAdminMessage(msg) {
-    adminMessageSpan.textContent = msg;
-    adminMessageDiv.classList.remove('hidden');
-    adminErrorDiv.classList.add('hidden');
-    // auto hide after 4s
-    setTimeout(() => adminMessageDiv.classList.add('hidden'), 4000);
-  }
+        async function logoutAdmin() {
+            try {
+                await fetch(`${SERVER_URL}/admin/logout`, { method: "POST", credentials: "include" });
+            } catch(e) {}
+            window.location.reload();
+        }
 
-  function showAdminError(msg) {
-    adminErrorSpan.textContent = msg;
-    adminErrorDiv.classList.remove('hidden');
-    adminMessageDiv.classList.add('hidden');
-    setTimeout(() => adminErrorDiv.classList.add('hidden'), 5000);
-  }
+        /* ============================================================
+           2. TAB SWITCHING
+           ============================================================ */
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
 
-  // ─── login ───
-  document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    hideMessages();
-    const pin = document.getElementById('adminPin').value.trim();
-    if (!pin) {
-      showLoginError('Please enter your PIN.');
-      return;
-    }
+        /* ============================================================
+           3. LOAD & MANAGE USERS
+           ============================================================ */
+        async function loadUsers() {
+            try {
+                const res = await fetch(`${SERVER_URL}/admin/users`, { credentials: "include" });
+                if (!res.ok) throw new Error("Failed to load");
+                const data = await res.json();
+                
+                const tbody = document.getElementById("usersList");
+                if (!data.users || data.users.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 2rem; color: var(--text-gray);">No users found.</td></tr>`;
+                    return;
+                }
 
-    try {
-      const res = await fetch(`${API_BASE}/admin/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pin }),
-        credentials: 'include'
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        showLoginError(data.message || 'Invalid PIN');
-        return;
-      }
-      // success
-      document.getElementById('loginSection').classList.add('hidden');
-      document.getElementById('adminPanel').classList.remove('hidden');
-      document.getElementById('adminPin').value = '';
-      loadUsers();
-    } catch (err) {
-      showLoginError('Network error. Please try again.');
-    }
-  });
+                tbody.innerHTML = data.users.map(u => `
+                    <tr>
+                        <td>${u.fullName}</td>
+                        <td>${u.phone}</td>
+                        <td>₦${Number(u.balance).toLocaleString()}</td>
+                        <td>
+                            <span class="status-badge ${u.active ? 'status-active' : 'status-inactive'}">
+                                ${u.active ? 'Active' : 'Inactive'}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="action-btn btn-credit" onclick="adjustBalance('${u.phone}', 'credit')">+ Credit</button>
+                            <button class="action-btn btn-debit" onclick="adjustBalance('${u.phone}', 'debit')">- Debit</button>
+                            ${u.active 
+                                ? `<button class="action-btn btn-deactivate" onclick="toggleUser('${u.phone}', 'deactivate')">Deactivate</button>`
+                                : `<button class="action-btn btn-activate" onclick="toggleUser('${u.phone}', 'activate')">Activate</button>`
+                            }
+                            <button class="action-btn btn-pin" onclick="changePin('${u.phone}')">Change PIN</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                document.getElementById("usersList").innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 2rem; color: #ff6b6b;">Error loading users. Please refresh or log in again.</td></tr>`;
+            }
+        }
 
-  // ─── logout ───
-  async function adminLogout() {
-    try {
-      await fetch(`${API_BASE}/admin/logout`, { method: 'POST', credentials: 'include' });
-    } catch (e) { /* ignore */ }
-    document.getElementById('adminPanel').classList.add('hidden');
-    document.getElementById('loginSection').classList.remove('hidden');
-    document.getElementById('adminPin').value = '';
-    hideMessages();
-  }
+        async function adjustBalance(phone, type) {
+            const amount = prompt(`Enter amount to ${type} for ${phone}:`);
+            if (!amount || isNaN(amount) || Number(amount) <= 0) return;
 
-  // ─── load users ───
-  async function loadUsers() {
-    hideMessages();
-    const tbody = document.querySelector('#usersTable tbody');
-    const noUsers = document.getElementById('noUsers');
-    const userCount = document.getElementById('userCount');
-    tbody.innerHTML = '';
+            try {
+                const res = await fetch(`${SERVER_URL}/admin/user/${type}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone, amount }),
+                    credentials: "include"
+                });
+                const data = await res.json();
+                
+                if (res.ok) {
+                    alert(`✅ ${data.message}`);
+                    loadUsers();
+                } else {
+                    alert(`❌ ${data.message}`);
+                }
+            } catch (e) {
+                alert("❌ Action failed. Network error.");
+            }
+        }
 
-    try {
-      const res = await fetch(`${API_BASE}/admin/users`, { credentials: 'include' });
-      if (res.status === 403) {
-        await adminLogout();
-        return;
-      }
-      const data = await res.json();
-      const users = data.users || [];
-      userCount.textContent = users.length;
+        async function toggleUser(phone, action) {
+            if (!confirm(`Are you sure you want to ${action} user ${phone}?`)) return;
 
-      if (users.length === 0) {
-        noUsers.classList.remove('hidden');
-        document.getElementById('usersTable').classList.add('hidden');
-        return;
-      }
-      noUsers.classList.add('hidden');
-      document.getElementById('usersTable').classList.remove('hidden');
+            try {
+                const res = await fetch(`${SERVER_URL}/admin/user/${action}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone }),
+                    credentials: "include"
+                });
+                const data = await res.json();
+                
+                if (res.ok) {
+                    alert(`✅ ${data.message}`);
+                    loadUsers();
+                } else {
+                    alert(`❌ ${data.message}`);
+                }
+            } catch (e) {
+                alert("❌ Action failed. Network error.");
+            }
+        }
 
-      users.forEach(user => {
-        const row = document.createElement('tr');
+        async function changePin(phone) {
+            const newPin = prompt(`Enter new 6-digit PIN for ${phone}:`);
+            if (!newPin) return;
+            if (newPin.length !== 6 || isNaN(newPin)) {
+                alert("❌ PIN must be exactly 6 digits.");
+                return;
+            }
 
-        // status badge
-        const statusClass = user.active ? 'status-active' : 'status-inactive';
-        const statusIcon = user.active ? 'fa-circle' : 'fa-circle';
-        const statusText = user.active ? 'Active' : 'Inactive';
+            try {
+                const res = await fetch(`${SERVER_URL}/admin/user/changepin`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ phone, newPin }),
+                    credentials: "include"
+                });
+                const data = await res.json();
+                
+                if (res.ok) {
+                    alert(`✅ ${data.message}`);
+                } else {
+                    alert(`❌ ${data.message}`);
+                }
+            } catch (e) {
+                alert("❌ Action failed. Network error.");
+            }
+        }
 
-        // action buttons with icons and labels
-        const actionsHtml = `
-          <div class="actions">
-            <button class="action-btn credit" onclick="showCreditForm('${user.phone}')"><i class="fas fa-plus-circle"></i> Credit</button>
-            <button class="action-btn debit" onclick="showDebitForm('${user.phone}')"><i class="fas fa-minus-circle"></i> Debit</button>
-            <button class="action-btn toggle" onclick="toggleUserStatus('${user.phone}', ${user.active})">
-              <i class="fas ${user.active ? 'fa-user-slash' : 'fa-user-check'}"></i> ${user.active ? 'Deactivate' : 'Activate'}
-            </button>
-            <button class="action-btn pin" onclick="showChangePinForm('${user.phone}')"><i class="fas fa-key"></i> PIN</button>
-          </div>
-        `;
+        /* ============================================================
+           4. GENERATE PAY CODE
+           ============================================================ */
+        async function generatePayCode() {
+            const username = document.getElementById("pc_username").value.trim();
+            const amount = document.getElementById("pc_amount").value.trim();
+            const accountNumber = document.getElementById("pc_accountNumber").value.trim();
+            const accountName = document.getElementById("pc_accountName").value.trim();
+            const bankName = document.getElementById("pc_bankName").value.trim();
 
-        row.innerHTML = `
-          <td><span class="user-name">${escapeHtml(user.fullName)}</span></td>
-          <td>${escapeHtml(user.phone)}</td>
-          <td><span class="balance">₦${user.balance.toLocaleString()}</span></td>
-          <td><span class="status-badge ${statusClass}"><i class="fas ${statusIcon}"></i> ${statusText}</span></td>
-          <td>${actionsHtml}</td>
-        `;
-        tbody.appendChild(row);
-      });
-    } catch (err) {
-      showAdminError('Failed to load users.');
-    }
-  }
+            if (!username || !amount || !accountNumber || !accountName || !bankName) {
+                alert("❌ Please fill all fields.");
+                return;
+            }
 
-  // ─── action handlers ───
-  function showCreditForm(phone) {
-    const amount = prompt('Enter amount to credit:');
-    if (amount === null) return;
-    if (!amount || isNaN(amount) || Number(amount) <= 0) {
-      showAdminError('Please enter a valid positive number.');
-      return;
-    }
-    creditUser(phone, amount);
-  }
+            const btn = event.target.closest('button');
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            btn.disabled = true;
 
-  async function creditUser(phone, amount) {
-    try {
-      const res = await fetch(`${API_BASE}/admin/user/credit`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, amount }),
-        credentials: 'include'
-      });
-      const data = await res.json();
-      if (res.ok) {
-        showAdminMessage(data.message || 'Credited successfully.');
-        loadUsers();
-      } else {
-        showAdminError(data.message || 'Credit failed.');
-      }
-    } catch (e) {
-      showAdminError('Network error.');
-    }
-  }
+            try {
+                const res = await fetch(`${SERVER_URL}/admin/generate-paycode`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, amount, accountNumber, accountName, bankName }),
+                    credentials: "include"
+                });
+                
+                const data = await res.json();
+                
+                if (res.ok) {
+                    document.getElementById("pc_displayCode").textContent = data.code;
+                    document.getElementById("pc_resultBox").classList.add("active");
+                    
+                    // Clear form
+                    document.getElementById("pc_username").value = "";
+                    document.getElementById("pc_amount").value = "";
+                    document.getElementById("pc_accountNumber").value = "";
+                    document.getElementById("pc_accountName").value = "";
+                    document.getElementById("pc_bankName").value = "";
+                } else {
+                    alert(`❌ ${data.message || "Failed to generate code."}`);
+                }
+            } catch (e) {
+                alert("❌ Network error. Please try again.");
+            } finally {
+                btn.innerHTML = original;
+                btn.disabled = false;
+            }
+        }
 
-  function showDebitForm(phone) {
-    const amount = prompt('Enter amount to debit:');
-    if (amount === null) return;
-    if (!amount || isNaN(amount) || Number(amount) <= 0) {
-      showAdminError('Please enter a valid positive number.');
-      return;
-    }
-    debitUser(phone, amount);
-  }
+        function copyCode() {
+            const code = document.getElementById("pc_displayCode").textContent;
+            if (code === "------") return;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const hint = document.querySelector('.copy-hint');
+                const original = hint.innerHTML;
+                hint.innerHTML = '<i class="fas fa-check-circle" style="color: var(--success);"></i> Code copied!';
+                setTimeout(() => { hint.innerHTML = original; }, 2000);
+            });
+        }
 
-  async function debitUser(phone, amount) {
-    try {
-      const res = await fetch(`${API_BASE}/admin/user/debit`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, amount }),
-        credentials: 'include'
-      });
-      const data = await res.json();
-      if (res.ok) {
-        showAdminMessage(data.message || 'Debited successfully.');
-        loadUsers();
-      } else {
-        showAdminError(data.message || 'Debit failed.');
-      }
-    } catch (e) {
-      showAdminError('Network error.');
-    }
-  }
-
-  async function toggleUserStatus(phone, currentActive) {
-    const action = currentActive ? 'deactivate' : 'activate';
-    if (!confirm(`Are you sure you want to ${action} this user?`)) return;
-
-    const endpoint = currentActive ? 'deactivate' : 'activate';
-    try {
-      const res = await fetch(`${API_BASE}/admin/user/${endpoint}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone }),
-        credentials: 'include'
-      });
-      const data = await res.json();
-      if (res.ok) {
-        showAdminMessage(data.message || `User ${action}d.`);
-        loadUsers();
-      } else {
-        showAdminError(data.message || `Failed to ${action}.`);
-      }
-    } catch (e) {
-      showAdminError('Network error.');
-    }
-  }
-
-  function showChangePinForm(phone) {
-    const newPin = prompt('Enter new PIN (4+ digits):');
-    if (newPin === null) return;
-    if (!newPin || newPin.length < 4) {
-      showAdminError('PIN must be at least 4 characters.');
-      return;
-    }
-    changePin(phone, newPin);
-  }
-
-  async function changePin(phone, newPin) {
-    try {
-      const res = await fetch(`${API_BASE}/admin/user/changepin`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, newPin }),
-        credentials: 'include'
-      });
-      const data = await res.json();
-      if (res.ok) {
-        showAdminMessage(data.message || 'PIN changed.');
-      } else {
-        showAdminError(data.message || 'PIN change failed.');
-      }
-    } catch (e) {
-      showAdminError('Network error.');
-    }
-  }
-
-  // escape helper
-  function escapeHtml(text) {
-    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-    return String(text).replace(/[&<>"']/g, m => map[m]);
-  }
-</script>
+        /* ============================================================
+           5. AUTO-CHECK SESSION ON LOAD
+           ============================================================ */
+        window.addEventListener("DOMContentLoaded", async () => {
+            // Optional: Check if admin is already logged in
+            try {
+                const res = await fetch(`${SERVER_URL}/admin/users`, { credentials: "include" });
+                if (res.ok) {
+                    document.getElementById("loginScreen").style.display = "none";
+                    document.getElementById("dashboardScreen").style.display = "block";
+                    loadUsers();
+                }
+            } catch (e) {
+                // Not logged in, show login screen
+            }
+        });
+    </script>
 </body>
 </html>
