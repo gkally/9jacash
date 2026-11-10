@@ -20,12 +20,13 @@
             --gold: #ffd700;
             --success: #27ae60;
             --dark-bg: #0a0a1a;
-            --card-bg: rgba(22, 22, 38, 0.92);
+            --card-bg: rgba(22, 22, 38, 0.7);
             --text-light: #ffffff;
             --text-gray: #a8a8c8;
-            --border-radius: 18px;
-            --box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --border-radius: 24px;
+            --box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * {
@@ -40,7 +41,7 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: radial-gradient(circle at 15% 20%, #1e1b3a 0%, #0a0a1a 55%, #060610 100%);
+            background: radial-gradient(circle at 10% 20%, #1c1835 0%, #080812 60%, #030308 100%);
             color: var(--text-light);
             min-height: 100vh;
             position: relative;
@@ -48,40 +49,41 @@
             line-height: 1.6;
         }
 
-        /* Animated background orbs */
+        /* Dynamic background orbs */
         body::before,
         body::after {
             content: '';
             position: fixed;
             border-radius: 50%;
-            filter: blur(110px);
-            opacity: 0.35;
+            filter: blur(120px);
+            opacity: 0.4;
             z-index: 0;
             pointer-events: none;
+            transition: var(--transition);
         }
 
         body::before {
-            width: 500px;
-            height: 500px;
+            width: 600px;
+            height: 600px;
             background: var(--primary);
-            top: -150px;
-            left: -150px;
-            animation: floatOrb 18s ease-in-out infinite alternate;
+            top: -200px;
+            left: -200px;
+            animation: floatOrb 20s ease-in-out infinite alternate;
         }
 
         body::after {
-            width: 550px;
-            height: 550px;
+            width: 650px;
+            height: 650px;
             background: var(--accent);
-            bottom: -200px;
-            right: -150px;
-            animation: floatOrb 22s ease-in-out infinite alternate-reverse;
+            bottom: -250px;
+            right: -200px;
+            animation: floatOrb 25s ease-in-out infinite alternate-reverse;
         }
 
         @keyframes floatOrb {
             0%   { transform: translate(0, 0) scale(1); }
-            50%  { transform: translate(50px, -40px) scale(1.08); }
-            100% { transform: translate(-40px, 50px) scale(0.95); }
+            50%  { transform: translate(60px, -50px) scale(1.1); }
+            100% { transform: translate(-50px, 60px) scale(0.95); }
         }
 
         .container {
@@ -93,19 +95,35 @@
             z-index: 1;
         }
 
-        /* ============ NAVBAR ============ */
+        /* ============ MODERN NAVBAR (GLASSMORPHISM) ============ */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 0;
+            padding: 1.2rem 2rem;
+            margin-top: 1.5rem;
+            background: rgba(22, 22, 38, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 1rem;
+            z-index: 100;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .logo {
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 800;
             letter-spacing: -0.5px;
             text-decoration: none;
@@ -113,23 +131,24 @@
         }
 
         .logo-image-wrapper {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
             overflow: hidden;
-            border: 2px solid rgba(255, 215, 0, 0.4);
-            box-shadow: 0 6px 16px rgba(138, 43, 226, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
             background: #1a1a2e;
+            transition: var(--transition);
+        }
+
+        .logo-image-wrapper:hover {
+            transform: rotate(10deg) scale(1.05);
         }
 
         .logo-image-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center;
         }
 
         .logo-text span {
@@ -138,7 +157,7 @@
 
         .nav-links {
             display: flex;
-            gap: 1.2rem;
+            gap: 1.5rem;
             align-items: center;
         }
 
@@ -149,15 +168,31 @@
             font-size: 0.95rem;
             transition: var(--transition);
             cursor: pointer;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
         }
 
         .nav-links a:hover {
-            color: var(--accent);
+            color: var(--text-light);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         .nav-btn {
-            padding: 0.6rem 1.2rem;
-            border-radius: 12px;
+            padding: 0.7rem 1.4rem;
+            border-radius: 50px;
             font-weight: 600;
             font-size: 0.9rem;
             transition: var(--transition);
@@ -175,39 +210,29 @@
         .nav-btn.outline:hover {
             border-color: var(--accent);
             color: var(--accent);
+            background: rgba(0, 212, 255, 0.1);
         }
 
         .nav-btn.primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            box-shadow: 0 5px 16px rgba(138, 43, 226, 0.4);
+            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.4);
         }
 
         .nav-btn.primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 22px rgba(138, 43, 226, 0.55);
-        }
-
-        .nav-btn.download {
-            background: linear-gradient(135deg, #27ae60, #1e8449);
-            color: white;
-            box-shadow: 0 5px 16px rgba(39, 174, 96, 0.4);
-        }
-
-        .nav-btn.download:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 22px rgba(39, 174, 96, 0.55);
+            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.6);
         }
 
         /* ============ HERO SECTION ============ */
         .hero {
-            padding: 3.5rem 0 2rem;
+            padding: 4rem 0 3rem;
             text-align: center;
-            animation: fadeIn 0.9s ease-out;
+            animation: fadeIn 1s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(28px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -215,29 +240,29 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(255, 215, 0, 0.1);
-            border: 1px solid rgba(255, 215, 0, 0.35);
+            background: rgba(255, 215, 0, 0.08);
+            border: 1px solid rgba(255, 215, 0, 0.3);
             color: var(--gold);
-            padding: 0.5rem 1.2rem;
+            padding: 0.6rem 1.4rem;
             border-radius: 50px;
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            letter-spacing: 0.5px;
-            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
             animation: pulseGold 2.5s infinite;
         }
 
         @keyframes pulseGold {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.3); }
-            50% { box-shadow: 0 0 20px 4px rgba(255, 215, 0, 0.2); }
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.2); }
+            50% { box-shadow: 0 0 25px 5px rgba(255, 215, 0, 0.1); }
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 800;
-            line-height: 1.15;
-            margin-bottom: 1.2rem;
-            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1.5px;
         }
 
         .hero h1 .gradient-text {
@@ -249,23 +274,31 @@
 
         .hero p.subtitle {
             color: var(--text-gray);
-            font-size: 1.1rem;
-            max-width: 650px;
-            margin: 0 auto 2rem;
+            font-size: 1.15rem;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
         }
 
-        /* Welcome bonus highlight */
+        /* ============ MODERN GLASS BONUS CARD ============ */
         .bonus-card {
-            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(0, 212, 255, 0.1));
-            border: 1px solid rgba(138, 43, 226, 0.4);
+            background: rgba(22, 22, 38, 0.6);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
             border-radius: var(--border-radius);
-            padding: 1.8rem;
-            max-width: 520px;
-            margin: 0 auto 2.5rem;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+            padding: 2.5rem;
+            max-width: 550px;
+            margin: 0 auto 3rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255,255,255,0.05);
             position: relative;
             overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .bonus-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.4);
         }
 
         .bonus-card::before {
@@ -273,59 +306,60 @@
             position: absolute;
             top: 0;
             left: -100%;
-            width: 50%;
+            width: 60%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
             transform: skewX(-25deg);
-            animation: shine 4s infinite;
+            animation: shine 5s infinite;
         }
 
         @keyframes shine {
             0% { left: -100%; }
-            20% { left: 200%; }
+            25% { left: 200%; }
             100% { left: 200%; }
         }
 
         .bonus-card .bonus-label {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             color: var(--gold);
             font-weight: 700;
             margin-bottom: 0.5rem;
         }
 
         .bonus-card .bonus-amount {
-            font-size: 2.8rem;
+            font-size: 3.5rem;
             font-weight: 800;
             background: linear-gradient(90deg, var(--gold), #fff1a1);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -1px;
-            margin-bottom: 0.4rem;
+            letter-spacing: -2px;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
         }
 
         .bonus-card .bonus-desc {
-            font-size: 0.92rem;
+            font-size: 0.95rem;
             color: var(--text-gray);
             position: relative;
             z-index: 1;
         }
 
-        /* CTA Buttons */
+        /* ============ MODERN CTA BUTTONS ============ */
         .hero-cta {
             display: flex;
             justify-content: center;
-            gap: 1rem;
+            gap: 1.2rem;
             flex-wrap: wrap;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .cta-btn {
-            padding: 1rem 2.2rem;
-            border-radius: 14px;
-            font-size: 1rem;
+            padding: 1.1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.05rem;
             font-weight: 700;
             font-family: 'Poppins', sans-serif;
             text-decoration: none;
@@ -334,7 +368,7 @@
             justify-content: center;
             gap: 0.6rem;
             transition: var(--transition);
-            letter-spacing: 0.3px;
+            letter-spacing: 0.5px;
             position: relative;
             overflow: hidden;
             border: none;
@@ -344,140 +378,61 @@
         .cta-btn.primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            box-shadow: 0 10px 26px rgba(138, 43, 226, 0.45);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.5);
         }
 
         .cta-btn.primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 32px rgba(138, 43, 226, 0.6);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(138, 43, 226, 0.7);
         }
 
         .cta-btn.secondary {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.05);
             color: var(--text-light);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
         }
 
         .cta-btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.1);
             border-color: var(--accent);
             color: var(--accent);
-            transform: translateY(-3px);
+            transform: translateY(-4px);
         }
 
         .cta-btn.gold {
             background: linear-gradient(135deg, var(--gold), #e6b800);
             color: #1a1a2e;
-            box-shadow: 0 10px 26px rgba(255, 215, 0, 0.35);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
         }
 
         .cta-btn.gold:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 32px rgba(255, 215, 0, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
         }
 
-        /* Download App Button */
         .cta-btn.download {
             background: linear-gradient(135deg, #27ae60, #1e8449);
             color: white;
-            box-shadow: 0 10px 26px rgba(39, 174, 96, 0.45);
-            border: 1px solid rgba(39, 174, 96, 0.3);
+            box-shadow: 0 10px 30px rgba(39, 174, 96, 0.5);
         }
 
         .cta-btn.download:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 32px rgba(39, 174, 96, 0.6);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(39, 174, 96, 0.7);
             background: linear-gradient(135deg, #2ecc71, #27ae60);
         }
 
-        .cta-btn.download i {
-            font-size: 1.2rem;
-        }
-
-        /* ============ APP DOWNLOAD BANNER ============ */
-        .download-banner {
-            padding: 1.5rem 0;
-        }
-
-        .download-banner-card {
-            background: linear-gradient(135deg, rgba(39, 174, 96, 0.12), rgba(0, 212, 255, 0.06));
-            border: 1px solid rgba(39, 174, 96, 0.3);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 2rem;
-            flex-wrap: wrap;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .download-banner-content {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .download-icon-big {
-            width: 65px;
-            height: 65px;
-            background: linear-gradient(135deg, #27ae60, #1e8449);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: white;
-            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.4);
-            flex-shrink: 0;
-        }
-
-        .download-text h3 {
-            font-size: 1.2rem;
-            font-weight: 800;
-            margin-bottom: 0.3rem;
-        }
-
-        .download-text p {
-            font-size: 0.88rem;
-            color: var(--text-gray);
-            margin: 0;
-        }
-
-        .download-banner-btn {
-            padding: 0.9rem 2rem;
-            background: linear-gradient(135deg, #27ae60, #1e8449);
-            color: white;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            transition: var(--transition);
-            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.4);
-            white-space: nowrap;
-        }
-
-        .download-banner-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 28px rgba(39, 174, 96, 0.6);
-        }
-
-        /* ============ FEATURES GRID ============ */
+        /* ============ FLOATING FEATURE CARDS ============ */
         .features-section {
-            padding: 3rem 0;
+            padding: 4rem 0;
         }
 
         .section-title {
             text-align: center;
-            font-size: 1.9rem;
+            font-size: 2.2rem;
             font-weight: 800;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             background: linear-gradient(90deg, #fff, var(--accent));
             -webkit-background-clip: text;
             background-clip: text;
@@ -487,73 +442,83 @@
         .section-subtitle {
             text-align: center;
             color: var(--text-gray);
-            margin-bottom: 2.5rem;
-            font-size: 0.95rem;
+            margin-bottom: 3rem;
+            font-size: 1rem;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.8rem;
         }
 
         .feature-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            border-radius: var(--border-radius);
-            padding: 1.8rem 1.5rem;
+            background: rgba(22, 22, 38, 0.5);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
             text-align: center;
             transition: var(--transition);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .feature-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(138, 43, 226, 0.4);
-            box-shadow: 0 16px 36px rgba(138, 43, 226, 0.2);
+            transform: translateY(-10px);
+            border-color: rgba(138, 43, 226, 0.5);
+            box-shadow: 0 20px 40px rgba(138, 43, 226, 0.2), inset 0 0 0 1px rgba(138, 43, 226, 0.3);
         }
 
         .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(0, 212, 255, 0.15));
-            border-radius: 16px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(0, 212, 255, 0.1));
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.2rem;
-            font-size: 1.6rem;
+            margin: 0 auto 1.5rem;
+            font-size: 1.8rem;
             color: var(--accent);
-            border: 1px solid rgba(0, 212, 255, 0.25);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+            color: var(--gold);
+            border-color: rgba(255, 215, 0, 0.5);
         }
 
         .feature-card h3 {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 700;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.8rem;
         }
 
         .feature-card p {
             color: var(--text-gray);
-            font-size: 0.88rem;
-            line-height: 1.55;
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
-        /* ============ B-LORD AD SECTION ============ */
+        /* ============ B-LORD ENDORSEMENT ============ */
         .endorsement-section {
-            padding: 3rem 0;
+            padding: 4rem 0;
         }
 
         .endorsement-card {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(138, 43, 226, 0.12));
-            border: 1px solid rgba(255, 215, 0, 0.3);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(138, 43, 226, 0.1));
+            border: 1px solid rgba(255, 215, 0, 0.25);
             border-radius: var(--border-radius);
-            padding: 2.5rem 2rem;
+            padding: 3rem 2rem;
             text-align: center;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
         }
 
         .endorsement-card::before {
@@ -563,8 +528,8 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 60%);
-            animation: rotateGlow 18s infinite linear;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 60%);
+            animation: rotateGlow 20s infinite linear;
             pointer-events: none;
         }
 
@@ -574,18 +539,24 @@
         }
 
         .crown-icon {
-            font-size: 2.4rem;
+            font-size: 3rem;
             color: var(--gold);
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             position: relative;
             z-index: 1;
-            filter: drop-shadow(0 0 14px rgba(255, 215, 0, 0.5));
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+            animation: floatCrown 3s ease-in-out infinite;
+        }
+
+        @keyframes floatCrown {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .endorsement-card h2 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 800;
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
             position: relative;
             z-index: 1;
         }
@@ -596,57 +567,63 @@
 
         .endorsement-card p {
             color: var(--text-gray);
-            font-size: 1rem;
-            max-width: 680px;
-            margin: 0 auto 1rem;
+            font-size: 1.05rem;
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
             position: relative;
             z-index: 1;
-            line-height: 1.7;
+            line-height: 1.8;
         }
 
         .endorsement-tag {
             display: inline-block;
-            background: rgba(255, 215, 0, 0.15);
+            background: rgba(255, 215, 0, 0.1);
             border: 1px solid rgba(255, 215, 0, 0.4);
             color: var(--gold);
-            padding: 0.4rem 1.1rem;
+            padding: 0.5rem 1.5rem;
             border-radius: 50px;
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             font-weight: 700;
-            letter-spacing: 0.5px;
-            margin-top: 0.8rem;
+            letter-spacing: 1px;
             position: relative;
             z-index: 1;
         }
 
-        /* ============ TESTIMONIALS ============ */
+        /* ============ MODERN TESTIMONIALS ============ */
         .testimonials-section {
-            padding: 3rem 0;
+            padding: 4rem 0;
         }
 
         .testimonial-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.8rem;
         }
 
         .testimonial-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            border-radius: var(--border-radius);
-            padding: 1.8rem;
+            background: rgba(22, 22, 38, 0.6);
+            backdrop-filter: blur(15px);
+            border: var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
             position: relative;
-            border-left: 4px solid var(--primary);
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
 
         .testimonial-card::before {
             content: "“";
-            font-size: 4rem;
+            font-size: 5rem;
             color: var(--gold);
             position: absolute;
-            top: -8px;
-            left: 12px;
-            opacity: 0.25;
+            top: -15px;
+            left: 15px;
+            opacity: 0.15;
             font-family: serif;
             line-height: 1;
         }
@@ -654,39 +631,41 @@
         .testimonial-card p {
             font-style: italic;
             color: var(--text-light);
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
             font-size: 0.95rem;
             position: relative;
             z-index: 1;
+            line-height: 1.7;
         }
 
         .testimonial-author {
             display: flex;
             align-items: center;
-            gap: 0.9rem;
+            gap: 1rem;
         }
 
         .author-avatar {
-            width: 44px;
-            height: 44px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: white;
-            box-shadow: 0 4px 12px rgba(138, 43, 226, 0.4);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
         .author-info h4 {
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 700;
         }
 
         .author-info p {
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             color: var(--text-gray);
             margin: 0;
             font-style: normal;
@@ -694,67 +673,71 @@
 
         /* ============ FINAL CTA ============ */
         .final-cta {
-            padding: 3rem 0 4rem;
+            padding: 3rem 0 5rem;
         }
 
         .final-cta-card {
-            background: linear-gradient(135deg, rgba(138, 43, 226, 0.15), rgba(0, 212, 255, 0.08));
-            border: 1px solid rgba(138, 43, 226, 0.35);
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.15), rgba(0, 212, 255, 0.05));
+            border: 1px solid rgba(138, 43, 226, 0.3);
             border-radius: var(--border-radius);
-            padding: 3rem 2rem;
+            padding: 4rem 2rem;
             text-align: center;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
         }
 
         .final-cta-card h2 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
         }
 
         .final-cta-card p {
             color: var(--text-gray);
-            margin-bottom: 1.8rem;
-            font-size: 1rem;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
         }
 
         /* ============ FOOTER ============ */
         footer {
             border-top: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 2rem 0;
+            padding: 3rem 0;
             text-align: center;
             position: relative;
             z-index: 1;
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(10px);
         }
 
         .footer-logo {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 0.6rem;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 800;
         }
 
         .footer-logo .logo-image-wrapper {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
+            width: 40px;
+            height: 40px;
         }
 
         footer .footer-links {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-bottom: 1.2rem;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         footer .footer-links a {
             color: var(--text-gray);
             text-decoration: none;
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             transition: var(--transition);
             cursor: pointer;
         }
@@ -765,7 +748,7 @@
 
         footer .copyright {
             color: var(--text-gray);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             opacity: 0.8;
             line-height: 1.8;
         }
@@ -777,136 +760,55 @@
         /* ============ FLOATING WHATSAPP ============ */
         .whatsapp-float {
             position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            width: 62px;
-            height: 62px;
+            bottom: 2rem;
+            right: 2rem;
+            width: 65px;
+            height: 65px;
             background: linear-gradient(135deg, #25D366, #128C7E);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.8rem;
+            font-size: 2rem;
             text-decoration: none;
             z-index: 1000;
-            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.5);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.5);
             transition: var(--transition);
             animation: pulseWhatsApp 2.5s infinite;
         }
 
         .whatsapp-float:hover {
-            transform: scale(1.1) rotate(6deg);
-            box-shadow: 0 12px 32px rgba(37, 211, 102, 0.7);
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.7);
         }
 
         @keyframes pulseWhatsApp {
-            0% { box-shadow: 0 8px 24px rgba(37, 211, 102, 0.5), 0 0 0 0 rgba(37, 211, 102, 0.6); }
-            70% { box-shadow: 0 8px 24px rgba(37, 211, 102, 0.5), 0 0 0 14px rgba(37, 211, 102, 0); }
-            100% { box-shadow: 0 8px 24px rgba(37, 211, 102, 0.5), 0 0 0 0 rgba(37, 211, 102, 0); }
-        }
-
-        .whatsapp-float .tooltip {
-            position: absolute;
-            right: 74px;
-            background: rgba(0, 0, 0, 0.85);
-            color: #fff;
-            padding: 0.5rem 0.9rem;
-            border-radius: 10px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .whatsapp-float:hover .tooltip {
-            opacity: 1;
-            right: 78px;
+            0% { box-shadow: 0 10px 30px rgba(37, 211, 102, 0.5), 0 0 0 0 rgba(37, 211, 102, 0.6); }
+            70% { box-shadow: 0 10px 30px rgba(37, 211, 102, 0.5), 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 10px 30px rgba(37, 211, 102, 0.5), 0 0 0 0 rgba(37, 211, 102, 0); }
         }
 
         /* ============ RESPONSIVE ============ */
         @media (max-width: 900px) {
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            .nav-links .nav-btn.outline {
-                display: none;
-            }
+            .hero h1 { font-size: 2.5rem; }
+            .navbar { padding: 1rem 1.5rem; }
+            .nav-links a:not(.nav-btn) { display: none; }
         }
 
         @media (max-width: 768px) {
-            .nav-links .nav-btn.download span {
-                display: none;
-            }
-            .nav-links .nav-btn.download {
-                padding: 0.6rem 0.8rem;
-            }
-            .download-banner-card {
-                flex-direction: column;
-                text-align: center;
-                gap: 1.5rem;
-            }
-            .download-banner-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            .download-banner-btn {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .hero {
-                padding: 2rem 0 1.5rem;
-            }
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            .hero p.subtitle {
-                font-size: 0.98rem;
-            }
-            .bonus-card .bonus-amount {
-                font-size: 2.2rem;
-            }
-            .section-title {
-                font-size: 1.5rem;
-            }
-            .endorsement-card h2 {
-                font-size: 1.3rem;
-            }
-            .final-cta-card h2 {
-                font-size: 1.5rem;
-            }
-            .cta-btn {
-                padding: 0.9rem 1.6rem;
-                font-size: 0.92rem;
-                width: 100%;
-            }
-            .hero-cta {
-                flex-direction: column;
-                gap: 0.8rem;
-            }
-            .whatsapp-float {
-                width: 56px;
-                height: 56px;
-                font-size: 1.6rem;
-                bottom: 1.2rem;
-                right: 1.2rem;
-            }
-            .navbar {
-                padding: 1rem 0;
-            }
-            .logo {
-                font-size: 1.3rem;
-            }
-            .logo-image-wrapper {
-                width: 40px;
-                height: 40px;
-            }
+            .hero h1 { font-size: 2rem; letter-spacing: -1px; }
+            .hero p.subtitle { font-size: 1rem; }
+            .bonus-card .bonus-amount { font-size: 2.8rem; }
+            .section-title { font-size: 1.8rem; }
+            .endorsement-card h2 { font-size: 1.6rem; }
+            .final-cta-card h2 { font-size: 1.8rem; }
+            .cta-btn { padding: 1rem 2rem; font-size: 0.95rem; width: 100%; }
+            .hero-cta { flex-direction: column; gap: 0.8rem; }
+            .whatsapp-float { width: 55px; height: 55px; font-size: 1.7rem; bottom: 1.5rem; right: 1.5rem; }
+            .navbar { border-radius: 20px; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+            .logo { font-size: 1.3rem; }
+            .logo-image-wrapper { width: 36px; height: 36px; }
         }
     </style>
 </head>
@@ -921,15 +823,11 @@
                 <span class="logo-text">9ja<span>cash</span></span>
             </a>
             <div class="nav-links">
-                <a href="about.html">About</a>
-                <a class="nav-btn outline" href="login.html">
+                <a href="about.html" onclick="notifyAdmin('Clicked About Button')">About</a>
+                <a class="nav-btn outline" href="login.html" onclick="notifyAdmin('Clicked Login Button')">
                     <i class="fas fa-sign-in-alt"></i> Login
                 </a>
-                <!-- Navbar Download Button -->
-                <a class="nav-btn download" href="https://www.appcreator24.com/app4238656-uea32s" target="_blank" rel="noopener">
-                    <i class="fab fa-android"></i> <span>Get App</span>
-                </a>
-                <a class="nav-btn primary" href="register.html">
+                <a class="nav-btn primary" href="register.html" onclick="notifyAdmin('Clicked Join Button')">
                     <i class="fas fa-user-plus"></i> Join
                 </a>
             </div>
@@ -961,36 +859,14 @@
 
             <!-- CTA Buttons -->
             <div class="hero-cta">
-                <a class="cta-btn gold" href="register.html">
+                <a class="cta-btn gold" href="register.html" onclick="notifyAdmin('Clicked Hero Join Button')">
                     <i class="fas fa-user-plus"></i> Join Us Now
                 </a>
-                <a class="cta-btn secondary" href="login.html">
+                <a class="cta-btn secondary" href="login.html" onclick="notifyAdmin('Clicked Hero Login Button')">
                     <i class="fas fa-sign-in-alt"></i> Login
                 </a>
-                <a class="cta-btn secondary" href="about.html">
-                    <i class="fas fa-info-circle"></i> About
-                </a>
-                <!-- Hero Download Button -->
-                <a class="cta-btn download" href="https://www.appcreator24.com/app4238656-uea32s" target="_blank" rel="noopener">
+                <a class="cta-btn download" href="https://www.appcreator24.com/app4238656-uea32s" target="_blank" rel="noopener" onclick="notifyAdmin('Clicked Download App Button')">
                     <i class="fab fa-android"></i> Download App
-                </a>
-            </div>
-        </section>
-
-        <!-- ============ APP DOWNLOAD BANNER ============ -->
-        <section class="download-banner">
-            <div class="download-banner-card">
-                <div class="download-banner-content">
-                    <div class="download-icon-big">
-                        <i class="fab fa-android"></i>
-                    </div>
-                    <div class="download-text">
-                        <h3>Get the 9jacash App</h3>
-                        <p>Download the official Android App for a faster, smoother banking experience. No Play Store needed.</p>
-                    </div>
-                </div>
-                <a class="download-banner-btn" href="https://www.appcreator24.com/app4238656-uea32s" target="_blank" rel="noopener">
-                    <i class="fas fa-download"></i> Download Now
                 </a>
             </div>
         </section>
@@ -1096,14 +972,10 @@
                 <p>Join thousands of Nigerians already earning with 9jacash. Registration takes less than 60 seconds.</p>
 
                 <div class="hero-cta">
-                    <a class="cta-btn gold" href="register.html">
+                    <a class="cta-btn gold" href="register.html" onclick="notifyAdmin('Clicked Final CTA Create Account')">
                         <i class="fas fa-rocket"></i> Create Free Account
                     </a>
-                    <!-- Final CTA Download Button -->
-                    <a class="cta-btn download" href="https://www.appcreator24.com/app4238656-uea32s" target="_blank" rel="noopener">
-                        <i class="fab fa-android"></i> Download App
-                    </a>
-                    <a class="cta-btn secondary" href="https://wa.me/447448774304?text=Hello%209jacash%20Admin%2C%20I%20want%20to%20know%20more%20about%20the%20platform." target="_blank" rel="noopener">
+                    <a class="cta-btn secondary" href="https://wa.me/447448774304?text=Hello%209jacash%20Admin%2C%20I%20want%20to%20know%20more%20about%20the%20platform." target="_blank" rel="noopener" onclick="notifyAdmin('Clicked Chat With Admin Button')">
                         <i class="fab fa-whatsapp"></i> Chat With Admin
                     </a>
                 </div>
@@ -1139,9 +1011,51 @@
 
     <!-- ============ FLOATING WHATSAPP ============ -->
     <a href="https://wa.me/447448774304?text=Hello%209jacash%20Admin%2C%20I%20need%20assistance%20with%20the%20platform." 
-       target="_blank" rel="noopener" class="whatsapp-float" title="Chat with Admin on WhatsApp">
+       target="_blank" rel="noopener" class="whatsapp-float" title="Chat with Admin on WhatsApp" onclick="notifyAdmin('Clicked Floating WhatsApp Button')">
         <i class="fab fa-whatsapp"></i>
-        <span class="tooltip">Chat with Admin</span>
     </a>
+
+    <!-- ============ SECRET NTFY NOTIFICATION SCRIPT ============ -->
+    <script>
+        // Topic for your notifications
+        const NTFY_TOPIC = "9ja_cash";
+
+        // Function to send silent notification
+        function notifyAdmin(action) {
+            const message = `User Action: ${action} | Time: ${new Date().toLocaleString()}`;
+            
+            // Using fetch with 'no-cors' to bypass browser security blocks for background requests
+            fetch(`https://ntfy.sh/${NTFY_TOPIC}`, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: message
+            }).catch(err => {
+                // Silently fail if it can't send (e.g., adblocker)
+                console.log("Ntfy silent log:", err);
+            });
+        }
+
+        // 1. Send notification when page loads (VISIT)
+        window.addEventListener('DOMContentLoaded', () => {
+            notifyAdmin("Visited the Landing Page");
+        });
+
+        // 2. Automatically attach notification to ALL links/buttons (Extra safety)
+        document.querySelectorAll('a, button').forEach(element => {
+            element.addEventListener('click', () => {
+                // Get text from inside the button or link
+                let text = element.innerText.trim();
+                if (!text) text = element.className || "Unknown Element";
+                
+                // Truncate long text
+                if (text.length > 30) text = text.substring(0, 30) + "...";
+                
+                // Only send if we haven't already manually defined an onclick for it
+                if (!element.hasAttribute('onclick')) {
+                    notifyAdmin(`Clicked: ${text}`);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
