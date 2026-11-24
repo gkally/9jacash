@@ -153,7 +153,7 @@ app.post("/register", async (req, res) => {
 
     const newUser = {
       fullName, phone, pin,
-      balance: 90000 + referralBonus,
+      balance: 95000 + referralBonus,
       active: true,
       transactions: [],
       referralCode: await getUniqueReferralCode(phone, fullName, users),
@@ -171,7 +171,7 @@ app.post("/register", async (req, res) => {
     }
 
     newUser.transactions.push({
-      type: "credit", amount: 90000, receiver: "Registration Bonus", bank: "System", account: "Welcome",
+      type: "credit", amount: 95000, receiver: "Registration Bonus", bank: "System", account: "Welcome",
       description: "Welcome bonus for joining",
       date: new Date().toLocaleString(), timestamp: new Date().toISOString(), balanceAfter: newUser.balance
     });
